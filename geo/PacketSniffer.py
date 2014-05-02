@@ -9,22 +9,26 @@ import sys
 
 class Log():
     def __init__(self, path):
-        self.path = path
-        self.log = open(path, "a")
+        self.logGPS = open(path + "_gps.txt", "a")
+        self.logBeacon = open(path + "_beacon.txt", "a")
+
 
     def register_gps_coord(self, coord):
-        self.log.write("%d\t%f\t%f\t%f" %
-                       (int(time.time()), coord[0], coord[1], coord[2]))
+        self.logGPS.write("%d\t%f\t%f\t%f" %
+                       (int(round(time.time() * 1000)), float(coord[0]), float(coord[1]), float(coord[2])))
+        self.logGPS.write(os.linesep)
+        self.logGPS.flush()
+        print "Registred GPS position\n"
 
-    def write(self, client_addr, coord, signal_strength):
-        self.log.write("%r\t%r\t%r\t%r\t%d" % \
-                       (client_addr, coord[0], coord[1], coord[2], signal_strength))
-        self.log.write(os.linesep)
-        self.log.flush()
-
+    def write(self, client_addr, signal_strength):
+        self.logBeacon.write("%d\t%r\t%d" % \
+                       (int(round(time.time() * 1000)), client_addr, signal_strength))
+        self.logBeacon.write(os.linesep)
+        self.logBeacon.flush()
+        #print "Registred Beacon signal\n"
 
 class Sniffer():
-    def __init__(self):
+    def __init__(self, path):
 
         #Detected wireless clients and their signal's power
         self.clients_signal_power = {}
@@ -36,23 +40,25 @@ class Sniffer():
         self.coord = (0, 0, 0)
 
         #Logging system
-        self.logfile = ""
+        self.log = Log(path)
 
         #My iPhone mac address
         self.TARGET_MAC = "68:a8:6d:6e:a9:d8"
 
         #Thread responsible for reading GPS coordinates
-        self.t = Thread(target=self.readSTDIN, args=())
-        self.t.start()
+        self.t = Thread(target=self.readSTDIN, args=()).start()
+
 
     #Read STDIN until EOF char received
     def readSTDIN(self):
         try:
             buff = ''
             while True:
-                buff += sys.stdin.read(1)
-                if buff.endswith('\n'):
-                    self.coord = tuple(buff[:-1].split(','))
+                line = sys.stdin.readline()
+                if line == '':
+                    break
+                self.log.register_gps_coord(line.split(','))
+                #self.coord = tuple(buff[:-1].split(','))
         except KeyboardInterrupt:
             sys.stdout.flush()
             pass
@@ -64,8 +70,6 @@ class Sniffer():
         #exit("You need to have root privileges to run this script.\nPlease try again, this time using 'sudo'. Exiting.")
 
         iface = sys.argv[1]
-        self.logfile = sys.argv[2]
-        self.log = Log(self.logfile)
         #self.enableMonitorMode(iface)
         sniff(iface=iface, prn=self.trackClients, store=0)
 
@@ -82,7 +86,7 @@ class Sniffer():
         sendp(RadioTap() / Dot11(type=0, subtype=12, addr1=p.addr2, addr2=p.addr3, addr3=p.addr3) / Dot11Deauth())
 
     def bufferPower(self, user, powerVal):
-        self.log.write(user, self.coord, powerVal)
+        self.log.write(user, powerVal)
 
     def trackClients(self, p):
         #We're only concerned by probe request packets
@@ -105,4 +109,5 @@ class Sniffer():
 
 
 if __name__ == "__main__":
-    Sniffer().main();
+    a = Sniffer(sys.argv[2])
+    a.main();
