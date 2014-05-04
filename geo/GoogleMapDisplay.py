@@ -23,7 +23,7 @@ class GoogleMapDisplay(QtGui.QMainWindow):
         self.html = QtWebKit.QWebView()
         self.mainLayout.addWidget(self.html)
         self.setCentralWidget(self.centralwidget)
-        self.mymap = MapBuilder(lat0, lon0, zoom, 'ROADMAP')
+        self.mymap = MapBuilder(lat0, lon0, zoom, 'SATELLITE')
 
     def addPoint(self, lat, lon, radius=1, fillOpacity=1.0, fillColor='#00FF00', strokeColor='#000000'):
         self.mymap.addCircle(Circle(lat, lon, radius=radius, \

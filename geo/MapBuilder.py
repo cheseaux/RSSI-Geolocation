@@ -58,6 +58,7 @@ class MapBuilder:
         f.write('\tfunction initialize() {\n')
         self.drawmap(f)
         self.drawCircles(f)
+        self.drawTexts(f)
         f.write('\t}\n')
         f.write('</script>\n')
         f.write('</head>\n')
@@ -66,6 +67,9 @@ class MapBuilder:
         f.write('</body>\n')
         f.write('</html>\n')
         f.close()
+
+	def drawTexts(self,f):
+		
 
     def drawCircles(self, f):
         for circ in self.circles:
