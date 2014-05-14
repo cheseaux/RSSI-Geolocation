@@ -17,14 +17,26 @@ import socket
 from threading import Thread
 import time
 from MapBuilder import *
+from server import *
+
+
+application = tornado.web.Application([
+    (r'/ws', WSHandler),
+])
+
+def launch_server():
+	http_server = tornado.httpserver.HTTPServer(application)
+	http_server.listen(8888)
+	tornado.ioloop.IOLoop.instance().start()
 
 class ClientThread( Thread ):
 
-	def __init__( self, client_sock, onLocalized):
+	def __init__( self, client_sock, onLocalized, onPositionUpdated):
 		Thread.__init__( self )
 		self.client = client_sock
 		self.userPosition = {}
 		self.onLocalized = onLocalized
+		self.onPositionUpdated = onPositionUpdated
 		self.interrupt = False
 	
 	def exit(self):
@@ -34,23 +46,36 @@ class ClientThread( Thread ):
 
 		while not self.interrupt:
 			try:
-				(user,lat,lon) = self.readline().split('\t');
+				strLine = self.readline()
+				if strLine.startswith("[plane]"):
+					strLine = strLine[7:]
+					(planeID,lat,lon, angle) = strLine.split('\t');
+					lat = float(lat)
+					lon = float(lon)
+					self.onPositionUpdated(planeID,lat,lon, angle)
+					print "Updated plane position"
+				elif strLine.startswith("[user]"):
+					strLine = strLine[6:]
+					(user,lat,lon) = strLine.split('\t');
+					lat = float(lat)
+					lon = float(lon)
+					
+					if user in self.userPosition:
+						(oldLat, oldLon) = self.userPosition[user]
+						#We only update if this is a new guessed position
+						if oldLat == lat and oldLon == lon:
+							continue
+				
+					self.userPosition[user] = (lat, lon)
+					self.onLocalized(user,lat,lon)
+					print "User %s should be at %f, %f" % (user,float(lat),float(lon))
+					
+				else:
+					continue
+			
 			except ValueError, err:
 				print err
 				continue
-				
-			lat = float(lat)
-			lon = float(lon)
-			
-			if user in self.userPosition:
-				(oldLat, oldLon) = self.userPosition[user]
-				#We only update if this is a new guessed position
-				if oldLat == lat and oldLon == lon:
-					continue
-		
-			self.userPosition[user] = (lat, lon)
-			self.onLocalized(user,lat,lon)
-			print "User %s should be at %f, %f" % (user,float(lat),float(lon))
 			
 
 		self.client.close()
@@ -69,9 +94,17 @@ class Server():
 		self.thread_list = []
 		self.mapBuild = MapBuilder(46.518394, 6.568469, zoom=16, mapType='SATELLITE')
 		self.userMarker = {}
+		t = threading.Thread(target=launch_server)
+		t.start()
+		
 		
 	def addGuess(self,user,lat,lon):
-		print "%r\t%f\t%f" % (user,lat,lon)
+		wsSend("[u]%r\t%f\t%f" % (user,lat,lon))
+		#self.userMarker[user] = MapLabel(lat=lat,lon=lon,text=user)
+		#self.drawMap()
+		
+	def addPlanePosition(self,planeID,lat,lon, angle):
+		wsSend("[p]%r\t%f\t%f\t%d" % (planeID,lat,lon, int(angle)))
 		#self.userMarker[user] = MapLabel(lat=lat,lon=lon,text=user)
 		#self.drawMap()
 		
@@ -101,7 +134,7 @@ class Server():
 		while not interrupted:
 			try:
 				client = self.sock.accept()[0]
-				new_thread = ClientThread( client, self.addGuess)
+				new_thread = ClientThread( client, self.addGuess, self.addPlanePosition)
 				print 'Incoming plane connection'
 				self.thread_list.append( new_thread )
 				new_thread.start()
@@ -118,6 +151,12 @@ class Server():
 		
 
 		self.sock.close()
+	
+	def readline( self ):
+		result = self.client.recv( 256 )
+		if( None != result ):
+			result = result.strip().lower()
+		return result
 
 if "__main__" == __name__:
 	server = Server()

@@ -13,35 +13,80 @@
 			mapTypeId: google.maps.MapTypeId.SATELLITE
 		};
 		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
- 
+		var images = []
+		
+		for (var i = 0; i < 360; i++) { 
+			images[i] = "images/plane"+i+".png"
+		}
+		
+		var markers = {};
+		
         var ws = new WebSocket("ws://localhost:8888/ws");
 		ws.onmessage = function(evt) {
-			var mapLabel = new MapLabel({
-					text: "Updated",
-					position: new google.maps.LatLng(46.516377, 6.568549),
+			if (evt.data.indexOf('[p]') == 0) {
+				var input = evt.data.substring(3);
+				var opt = input.split('\t');
+				var plane = opt[0];
+				var lat = opt[1];
+				var lon = opt[2];
+				var angle = (180 - parseInt(opt[3])) % 360;
+				var oldMarker = markers[plane]
+				if (oldMarker !== undefined) {
+					markers[plane].setMap(null)
+				}
+				markers[plane] = new MapLabel({
+					position: new google.maps.LatLng(lat, lon),
+					map: map,
+					fontSize: 12,
+					align: "center"
+				});
+				var image = {
+					url: images[angle],
+					size: new google.maps.Size(64, 64),
+					origin: new google.maps.Point(0,0),
+					anchor: new google.maps.Point(32, 32)
+				};
+                
+				var marker = new google.maps.Marker({
+					icon: image
+				});
+				marker.bindTo("map", markers[plane]);
+				marker.bindTo("position", markers[plane]);
+				marker.setDraggable(true);
+				
+			} else if (evt.data.indexOf('[u]') == 0) {
+				var input = evt.data.substring(3, 0);
+				var opt = input.split('\t');
+				var user = opt[0];
+				var lat = opt[1];
+				var lon = opt[2];
+				
+				var oldMarker = markers[user]
+				if (oldMarker !== undefined) {
+					markers[user].setMap(null)
+				}
+				markers[user] = new MapLabel({
+					text: user,
+					position: new google.maps.LatLng(lat, lon),
 					map: map,
 					fontSize: 12,
 					align: "center"
 				})
 				var marker = new google.maps.Marker;
-					marker.bindTo("map", mapLabel);
-					marker.bindTo("position", mapLabel);
-					marker.setDraggable(true);
-				}
+				marker.bindTo("map", markers[user]);
+				marker.bindTo("position", markers[user]);
+				marker.setDraggable(true);
+			} else {
+					console.log('no regex : ' + evt.data);
+			}
+			
+			
+		}
 		ws.onclose = function(evt) { alert("Connection close"); };
  
           ws.onopen = function(evt) { 
-				var mapLabel = new MapLabel({
-					text: "Open!",
-					position: new google.maps.LatLng(46.517377, 6.569549),
-					map: map,
-					fontSize: 12,
-					align: "center"
-				})
-				var marker = new google.maps.Marker;
-					marker.bindTo("map", mapLabel);
-					marker.bindTo("position", mapLabel);
-					marker.setDraggable(true);
+				
+
 		  }
         };
 

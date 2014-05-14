@@ -6,8 +6,7 @@ from threading import Thread
 import math
 import time
 import sys
-from TCPSender import 
-from server import *
+from TCPSender import *
 	
 class GPSUtil():
 	
@@ -42,9 +41,9 @@ class GPSUtil():
 		
 		
 	@staticmethod
-	def angleBetweenCoords(gps1,gps2):
-		dy = gps2.lat - gps1.lat
-		dx = math.cos(math.pi/180*gps1.lat)*(gps2.lon - gps1.lon)
+	def angleBetweenCoords(lat1,lon1,lat2,lon2):
+		dy = lat2 - lat1
+		dx = math.cos(math.pi/180*lat1)*(lon2 - lon1)
 		return math.degrees(math.atan2(dy, dx))
 		
 	@staticmethod
@@ -77,22 +76,12 @@ class Sniffer():
 		#TCP sender for communication with base station
 		self.sender = TCPSender()
 		
-		self.sender = WebSocketServer("localhost", 9999, WebSocket)
-		Thread(target=self.sender.listen, args=[5]).start()
-    # Add SIGINT handler for killing the threads
-    def signal_handler(signal, frame):
-        logging.info("Caught Ctrl+C, shutting down...")
-        server.running = False
-        sys.exit()
-    signal.signal(signal.SIGINT, signal_handler)
-    while True:
-        time.sleep(100)
-		
 		#Min acceptable power to localize users
 		self.MIN_POWER = 0
 		
 		#Coordinates
 		self.coord = (0,0,0)
+		self.angle = 0
 	
 		#Logging system
 		self.logfile = ""
@@ -111,7 +100,9 @@ class Sniffer():
 				if buff.endswith('\n'):
 					buff = buff[:-1].split('\n')[-1]
 					buff = buff.split(', ')
+					self.angle = GPSUtil.angleBetweenCoords(self.coord[0], self.coord[1], float(buff[0]), float(buff[1]))
 					self.coord = tuple((float(buff[0]), float(buff[1]), float(buff[2])))
+					self.send_position_to_station(self.coord[0], self.coord[1], self.angle)
 					buff = ''
 		except KeyboardInterrupt:
 			sys.stdout.flush()
@@ -142,9 +133,11 @@ class Sniffer():
 
 		self.send_localization_to_station(user,allLat,allLon)
 	
+	def send_position_to_station(self, lat, lon, angle):
+		self.sender.send("[plane]%s\t%s\t%s\t%d" % ("plane", lat, lon, angle))
 
 	def send_localization_to_station(self,user, lat, lon):
-		self.sender.send("%s\t%s\t%s" % (user, lat, lon))
+		self.sender.send("[user]%s\t%s\t%s" % (user, lat, lon))
 		#print "Sended %r\t%r\t%r" % (user, lat, lon)
 
 
