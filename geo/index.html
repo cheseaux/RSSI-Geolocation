@@ -3,6 +3,10 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 <title>Google Maps - pygmaps </title>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="maplabel-compiled.js"></script><script type="text/javascript">
 	function initialize() {
@@ -20,16 +24,24 @@
 		}
 		
 		var markers = {};
+		var notif_plane = $("<div />", { 'class': 'alerttopbar', text: "Connection to plane lost." });
+		var notif_basestation = $("<div />", { 'class': 'alerttopbar', text: "Connection to base station interrupted.\nTry to refresh this page." });
+		var notif_connected = $("<div />", { 'class': 'infotopbar', text: "Connected to base station" });
+		
+		
 		
         var ws = new WebSocket("ws://localhost:8888/ws");
+        
+        
 		ws.onmessage = function(evt) {
+			console.log(evt.data)
 			if (evt.data.indexOf('[p]') == 0) {
 				var input = evt.data.substring(3);
 				var opt = input.split('\t');
 				var plane = opt[0];
 				var lat = opt[1];
 				var lon = opt[2];
-				var angle = (180 - parseInt(opt[3])) % 360;
+				var angle = (360 - parseInt(opt[3])) % 360;
 				var oldMarker = markers[plane]
 				if (oldMarker !== undefined) {
 					markers[plane].setMap(null)
@@ -55,12 +67,12 @@
 				marker.setDraggable(true);
 				
 			} else if (evt.data.indexOf('[u]') == 0) {
-				var input = evt.data.substring(3, 0);
+				var input = evt.data.substring(3);
 				var opt = input.split('\t');
 				var user = opt[0];
 				var lat = opt[1];
 				var lon = opt[2];
-				
+				console.log(input)
 				var oldMarker = markers[user]
 				if (oldMarker !== undefined) {
 					markers[user].setMap(null)
@@ -76,17 +88,34 @@
 				marker.bindTo("map", markers[user]);
 				marker.bindTo("position", markers[user]);
 				marker.setDraggable(true);
+			} else if (evt.data === 'disconnected') {
+				console.log("done")
+				var message = "Connection to plane interrupted."
+				$("<div />", { 'class': 'alerttopbar', text: message }).hide().prependTo("body").slideDown('fast').delay(10000).slideUp(function() { $(this).remove(); });
+					
+				for (var key in markers) {
+					markers[key].setMap(null)
+				}
+				
 			} else {
-					console.log('no regex : ' + evt.data);
+					console.log(evt.data)
 			}
 			
-			
 		}
-		ws.onclose = function(evt) { alert("Connection close"); };
+
+		ws.onclose = function(evt) { 
+			console.log("done")
+				var message = "Connection to base station interrupted.\nTry to refresh this page."
+				notif_basestation.hide().prependTo("body").slideDown('fast');
+				notif_connected.slideUp(function() { $(this).remove(); });
+				for (var key in markers) {
+					markers[key].setMap(null)
+				}
+		};
  
           ws.onopen = function(evt) { 
-				
-
+				notif_basestation.slideUp(function() { $(this).remove(); });
+				notif_connected.hide().prependTo("body").slideDown('fast').delay(5000).slideUp(function() { $(this).remove(); });
 		  }
         };
 

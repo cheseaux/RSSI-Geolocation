@@ -75,6 +75,7 @@ class Sniffer():
 		
 		#TCP sender for communication with base station
 		self.sender = TCPSender()
+		self.sender.start()
 		
 		#Min acceptable power to localize users
 		self.MIN_POWER = 0

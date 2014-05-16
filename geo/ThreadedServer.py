@@ -10,13 +10,11 @@
 # Select MAC from base station and sends routing information (from map or script, the easiest the best)
 #
 
-
-
 import sys
 import socket
 from threading import Thread
 import time
-from MapBuilder import *
+import datetime
 from server import *
 
 
@@ -38,43 +36,62 @@ class ClientThread( Thread ):
 		self.onLocalized = onLocalized
 		self.onPositionUpdated = onPositionUpdated
 		self.interrupt = False
+		self.last_keepalive = datetime.datetime.now()
+		self.check_client_connection()
 	
 	def exit(self):
 		self.interrupt = True
+		
+	def check_client_connection(self):
+		#Check if client is still up (if he has sent a keepalive msg
+		#in the last 5 seconds)
+		diff = (datetime.datetime.now() - self.last_keepalive).seconds
+		if diff > 5:
+			print "Assuming that the client is disconnected... %d" % diff
+			wsSend("disconnected")
+		else:
+			threading.Timer(1, self.check_client_connection).start()
 
 	def run( self ):
-
-		while not self.interrupt:
+		strBuffer = ""
+		while True:
 			try:
-				strLine = self.readline()
-				if strLine.startswith("[plane]"):
-					strLine = strLine[7:]
-					(planeID,lat,lon, angle) = strLine.split('\t');
-					lat = float(lat)
-					lon = float(lon)
-					self.onPositionUpdated(planeID,lat,lon, angle)
-					print "Updated plane position"
-				elif strLine.startswith("[user]"):
-					strLine = strLine[6:]
-					(user,lat,lon) = strLine.split('\t');
-					lat = float(lat)
-					lon = float(lon)
+				strLine = (strBuffer + self.readline()).split('\n')
+				strBuffer = ""
+				for line in strLine:
+					print "line : ",
+					print line
+					if line.startswith("[plane]"):
+						line = line[7:]
+						(planeID,lat,lon, angle) = line.split('\t');
+						lat = float(lat)
+						lon = float(lon)
+						self.onPositionUpdated(planeID,lat,lon, angle)
+					elif line.startswith("[user]"):
+						line = line[6:]
+						(user,lat,lon) = line.split('\t');
+						lat = float(lat)
+						lon = float(lon)
+						
+						if user in self.userPosition:
+							(oldLat, oldLon) = self.userPosition[user]
+							#We only update if this is a new guessed position
+							if oldLat == lat and oldLon == lon:
+								continue
 					
-					if user in self.userPosition:
-						(oldLat, oldLon) = self.userPosition[user]
-						#We only update if this is a new guessed position
-						if oldLat == lat and oldLon == lon:
-							continue
-				
-					self.userPosition[user] = (lat, lon)
-					self.onLocalized(user,lat,lon)
-					print "User %s should be at %f, %f" % (user,float(lat),float(lon))
-					
-				else:
-					continue
+						self.userPosition[user] = (lat, lon)
+						self.onLocalized(user,lat,lon)
+						print "User %s should be located at %f, %f" % (user,float(lat),float(lon))
+					elif line.startswith("KEEPALIVE"):
+						self.last_keepalive = datetime.datetime.now()	
+					else:
+						continue
 			
 			except ValueError, err:
-				print err
+				print "ERR ClientThread",
+				print line
+				print "End of line----"
+				strBuffer += line
 				continue
 			
 
@@ -83,8 +100,9 @@ class ClientThread( Thread ):
 
 	def readline( self ):
 		result = self.client.recv( 256 )
+		#print "RCVD " + result
 		if( None != result ):
-			result = result.strip().lower()
+			result = result
 		return result
 
 class Server():
@@ -92,28 +110,15 @@ class Server():
 	def __init__( self ):
 		self.sock = None
 		self.thread_list = []
-		self.mapBuild = MapBuilder(46.518394, 6.568469, zoom=16, mapType='SATELLITE')
-		self.userMarker = {}
 		t = threading.Thread(target=launch_server)
 		t.start()
 		
 		
 	def addGuess(self,user,lat,lon):
 		wsSend("[u]%r\t%f\t%f" % (user,lat,lon))
-		#self.userMarker[user] = MapLabel(lat=lat,lon=lon,text=user)
-		#self.drawMap()
 		
 	def addPlanePosition(self,planeID,lat,lon, angle):
 		wsSend("[p]%r\t%f\t%f\t%d" % (planeID,lat,lon, int(angle)))
-		#self.userMarker[user] = MapLabel(lat=lat,lon=lon,text=user)
-		#self.drawMap()
-		
-	def drawMap(self):
-		self.mapBuild.clear()
-		for user in self.userMarker:
-			self.mapBuild.addText(self.userMarker[user])
-		
-		self.mapBuild.draw('mymap.html')
 		
 	def run( self ):
 		
@@ -153,10 +158,7 @@ class Server():
 		self.sock.close()
 	
 	def readline( self ):
-		result = self.client.recv( 256 )
-		if( None != result ):
-			result = result.strip().lower()
-		return result
+		return self.client.recv( 256 )
 
 if "__main__" == __name__:
 	server = Server()

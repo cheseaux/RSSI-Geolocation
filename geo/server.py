@@ -11,9 +11,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 	def open(self):
 		if self not in wss:
 			wss.append(self)
-		print 'new connection'
-		time.sleep(3)
-		self.write_message("Hello World")
+		print 'Web UI connected'
 			  
 	def on_message(self, message):
 		print 'message received %s' % message
@@ -27,11 +25,10 @@ application = tornado.web.Application([
 
 def wsSend(message):
 	for ws in wss:
-		if not ws or not ws.ws_connection.stream.socket:
+		if None == ws or not ws.ws_connection.stream.socket:
 			print "Web socket does not exist anymore!!!"
 			wss.remove(ws)
 		else:
-			print "message written to websocket"
 			ws.write_message(message)
 
 def launch_server():
