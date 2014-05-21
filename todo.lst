@@ -1,5 +1,0 @@
-TODO :
-
-- Check orientation VS power signal received correlation (3D graph meter x power x orientation), maybe use enveloppe to map RSSI to meters
-- Change mapping of sphere radius for display (log)
-- Change scripts to take into account plane orientation + timestamp
