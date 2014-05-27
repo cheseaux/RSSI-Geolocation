@@ -1,0 +1,258 @@
+<html>
+   <head>
+      <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+      <title>Google Maps - pygmaps </title>
+      <link rel="stylesheet" type="text/css" href="style-replay.css">
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+      <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+      <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing"></script>
+      <script type="text/javascript" src="maplabel-compiled.js"></script><script type="text/javascript">
+         function initializeMap() {
+         	var centerlatlng = new google.maps.LatLng(46.518394, 6.568469);
+         	var myOptions = {
+         		zoom: 16,
+         		center: centerlatlng,
+         		mapTypeId: google.maps.MapTypeId.SATELLITE
+         	};
+         	window.map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+         	window.images = []
+         	
+         	for (var i = 0; i < 360; i++) { 
+         		window.images[i] = "../res/images/robot/plane"+i+".png"
+         	}
+         	
+         	window.markers = {};
+
+		}
+ 
+		function setPlanePosition(plane, lat, lon, angle) {
+			var angle = (360 - parseInt(angle)) % 360;
+			var oldMarker = window.markers[plane]
+			if (oldMarker !== undefined) {
+				window.markers[plane].setMap(null)
+			}
+			window.markers[plane] = new MapLabel({
+				position: new google.maps.LatLng(lat, lon),
+				map: window.map,
+				fontSize: 12,
+				align: "center"
+			});
+			var image = {
+				url: images[angle],
+				size: new google.maps.Size(64, 64),
+				origin: new google.maps.Point(0,0),
+				anchor: new google.maps.Point(32, 32)
+			};
+			
+			var marker = new google.maps.Marker({
+				icon: image
+			});
+			marker.bindTo("map", window.markers[plane]);
+			marker.bindTo("position", window.markers[plane]);
+			marker.setDraggable(false);
+			
+		};
+		
+		var current_item = 0
+		
+		var lastTS = 0
+		
+		var fileLoaded = false
+		
+		function doReplay() {
+			line = window.lines[current_item];
+			items = line.split('\t');
+			console.log(line)
+			type = items[0]
+			ts = items[1]
+			
+			if (type.indexOf('[COORD]')==0) {
+				lat = items[3]
+				lon = items[4]
+				setPlanePosition('test', lat, lon, 0)
+			}
+			
+			if (type.indexOf('[LOCAL]')==0) {
+				user = items[2]
+				lat = items[3]
+				lon = items[4]
+				setUserPosition(user, lat, lon)
+			}
+			
+			if (current_item < lines.length && play) {
+				current_item += 1;
+				nextTS = window.lines[current_item].split('\t')[1]
+				setTimeout(doReplay,(nextTS-ts)/speed);
+			}
+		}
+		
+		play = false;
+		speed = 1.0;
+		
+		function onPlay() {
+			play = true;
+			doReplay();
+		}
+		
+		function onBack() {
+			if (speed > 1) {
+				speed -= 1.0;
+			}
+			$('#btnBack')
+				.attr('data-original-title', 'Current speed : ' + speed + 'x')
+				.tooltip('fixTitle')
+				.tooltip('show');
+			$('#btnForward')
+				.attr('data-original-title', 'Current speed : ' + speed + 'x')
+				.tooltip('fixTitle')
+		}
+		
+		function onForward() {
+			console.log('OnForward speed ' + speed)
+			if (speed < 20) {
+				speed += 1.0;
+			}
+			$('#btnForward')
+				.attr('data-original-title', 'Current speed : ' + speed + 'x')
+				.tooltip('fixTitle')
+				.tooltip('show');
+			$('#btnBack').tooltip('hide')
+				.attr('data-original-title', 'Current speed : ' + speed + 'x')
+				.tooltip('fixTitle')
+		}
+		
+		function onPause() {
+			play = false;
+		}
+		
+		function onStop() {
+			play = false;
+			current_item = 0;
+		}
+	  
+		function setUserPosition(user, lat, lon) {
+			var oldMarker = window.markers[user]
+			if (oldMarker !== undefined) {
+				window.markers[user].setMap(null);
+			}
+			window.markers[user] = new MapLabel({
+				text: user,
+				position: new google.maps.LatLng(lat, lon),
+				map: window.map,
+				fontSize: 12,
+				align: "center"
+			})
+			var marker = new google.maps.Marker;
+			marker.bindTo("map", window.markers[user]);
+			marker.bindTo("position", window.markers[user]);
+			marker.setDraggable(false);
+		};
+		
+		var blackList = [];
+		filtered = false;
+		
+		function clean() {
+			console.log("cleaning")
+			for (var marker in window.markers) { 
+				marker = marker.substring(1, marker.length-1);
+				console.log("Marker : " + marker)
+				console.log("InMarker : " + blackList)
+         		if ($.inArray(marker, blackList) != -1) {
+					console.log("found!")
+					marker.setMap(null);
+				}
+         	}
+		}
+		
+		function enableMACFilter(cbox) {
+			filtered = (cbox.checked == 0 ? false : true);
+			console.log("filtered = " + filtered)
+			if (filtered) {
+				mac = document.getElementById("macaddresses").value;
+				blackList.push(mac);
+				console.log(mac + " added to blacklist");
+				clean()
+			}
+		}
+         
+         
+      </script>
+   </head>
+   <body style="margin:0px; padding:0px;" onload="initializeMap()">
+	<div class="panel-group" id="accordion" >
+		<div class="panel panel-default" id="panel1">
+			<div class="panel-heading">
+				<h4 class="panel-title" >
+					<a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne" href="#collapseOne">
+						Replay flight
+					</a>
+				</h4>
+			</div>
+		<div id="collapseOne" class="panel-collapse collapse in">
+			<div class="panel-body">
+				 <div class="row">
+					<div class="col-xs-4">
+						<label>
+							<input type="checkbox" onclick='enableMACFilter(this);'> MAC filter
+						</label>
+						<input type="text" id="macaddresses" class = "Form-control" value="64:b3:10:86:06:3a" placeholder="Seperate multiple values with commas (,)">
+					</div>
+					<div class="col-xs-4">
+						<label>Controls</label>
+						<div class="btn-toolbar">
+					   <div class="btn-group">
+						<button type="button" id = "btnBack" class="btn btn-default" onclick="onBack()" data-toggle="tooltip" data-placement="top" title="Current speed : 1.0x"><i class="glyphicon glyphicon-backward"></i></button>
+						<button type="button" class="btn btn-default" onclick="onPause()"><i class="glyphicon glyphicon-pause"></i></button>
+						<button type="button" class="btn btn-default" onclick="onStop()"><i class="glyphicon glyphicon-stop"></i></button>
+						<button type="button" class="btn btn-default" onclick="onPlay()"><i class="glyphicon glyphicon-play"></i></button>
+						<button type="button" id = "btnForward" class="btn btn-default" onclick="onForward()" data-toggle="tooltip" data-placement="top" title="Current speed : 1.0x"><i class="glyphicon glyphicon-forward"></i></button>
+					   </div>
+				      </div>
+					</div>
+					<div class="col-xs-4">
+						<input type="file" id="log_file" name="files[]" multiple />
+						<output id="list"></output>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<div id="map-container" class="col-xs-12">
+		   <div id="map_canvas" style="width: 100%; height: 70%;"></div>
+		</div>
+
+	<script>
+		var control = document.getElementById("log_file");
+		
+		var reader = new FileReader();
+		reader.onload = function(event) {
+		    window.lines = event.target.result.split('\n');
+		    $('button').prop('disabled', false);
+		    $('button').tooltip()
+		};
+		
+		reader.onerror = function(event) {
+		    console.error("File could not be read! Code " + event.target.error.code);
+		};
+
+		control.addEventListener("change", function(event) {
+
+		    var i = 0,
+		    files = control.files,
+		    len = files.length;
+		
+		    reader.readAsText(files[0]);
+		
+		}, false);
+		
+		
+		$('button').prop('disabled', true);
+
+	</script>
+
+   </body>
+</html>

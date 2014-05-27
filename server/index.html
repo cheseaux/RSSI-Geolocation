@@ -1,0 +1,173 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Google Maps - pygmaps </title>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing"></script>
+<script type="text/javascript" src="maplabel-compiled.js"></script><script type="text/javascript">
+		
+	function initialize() {
+		var ws = new WebSocket("ws://localhost:8888/ws");
+        
+		var centerlatlng = new google.maps.LatLng(46.518394, 6.568469);
+		var myOptions = {
+			zoom: 16,
+			center: centerlatlng,
+			mapTypeId: google.maps.MapTypeId.SATELLITE
+		};
+		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		var images = []
+		
+		for (var i = 0; i < 360; i++) { 
+			images[i] = "../res/images/robot/plane"+i+".png"
+		}		
+		
+		function enableDrawingManager(planeID, marker) {
+			var drawingManager = new google.maps.drawing.DrawingManager({
+				drawingMode: google.maps.drawing.OverlayType.RECTANGLE,
+				drawingControl: false,
+				drawingControlOptions: {
+					position: google.maps.ControlPosition.TOP_CENTER,
+					drawingModes: [
+						google.maps.drawing.OverlayType.RECTANGLE
+					]
+				},
+				rectangleOptions: {
+					fillColor: '#ff0000',
+					fillOpacity: 0.2,
+					strokeWeight: 5,
+					clickable: false,
+					editable: true,
+					zIndex: 1
+				}
+			});
+		
+			google.maps.event.addListener(marker, 'click', function() {
+				var message = "Click on the map to draw the search area."
+				var draw_notif = $("<div />", { 'class': 'infotopbar', text: message }).hide().prependTo("body").slideDown('slow');
+				drawingManager.setMap(map);	
+				google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+					if (event.type == google.maps.drawing.OverlayType.RECTANGLE) {
+						var NEbound = event.overlay.bounds.getNorthEast()
+						var SWbound = event.overlay.bounds.getSouthWest()
+						console.log(NEbound.lat())
+						console.log(marker.getMap())
+						ws.send(planeID + "\t" + NEbound.lat() +"\t"+ NEbound.lng() 
+							+ "\t" + SWbound.lat() + "\t" + SWbound.lng())
+						event.overlay.setMap(null);
+						drawingManager.setMap(null);	
+						draw_notif.slideUp(function() { $(this).remove(); });
+					}
+				});
+			});	
+		}
+		
+		var markers = {};
+		var notif_plane = $("<div />", { 'class': 'alerttopbar', text: "Connection to plane lost." });
+		var notif_basestation = $("<div />", { 'class': 'alerttopbar', text: "Connection to base station interrupted.\nTry to refresh this page." });
+		var notif_connected = $("<div />", { 'class': 'infotopbar', text: "Connected to base station" });
+        
+		ws.onmessage = function(evt) {
+			console.log(evt.data)
+			if (evt.data.indexOf('[p]') == 0) {
+				var input = evt.data.substring(3);
+				var opt = input.split('\t');
+				var plane = opt[0];
+				var lat = opt[1];
+				var lon = opt[2];
+				var angle = (360 - parseInt(opt[3])) % 360;
+				var oldMarker = markers[plane]
+				if (oldMarker !== undefined) {
+					markers[plane].setMap(null)
+				}
+				markers[plane] = new MapLabel({
+					position: new google.maps.LatLng(lat, lon),
+					map: map,
+					fontSize: 12,
+					align: "center"
+				});
+				var image = {
+					url: images[angle],
+					size: new google.maps.Size(64, 64),
+					origin: new google.maps.Point(0,0),
+					anchor: new google.maps.Point(32, 32)
+				};
+                
+				var marker = new google.maps.Marker({
+					icon: image
+				});
+				marker.bindTo("map", markers[plane]);
+				marker.bindTo("position", markers[plane]);
+				marker.setDraggable(false);
+				
+				enableDrawingManager(plane, marker) 
+  
+				
+			} else if (evt.data.indexOf('[u]') == 0) {
+				var input = evt.data.substring(3);
+				var opt = input.split('\t');
+				var user = opt[0];
+				var lat = opt[1];
+				var lon = opt[2];
+				console.log(input)
+				var oldMarker = markers[user]
+				if (oldMarker !== undefined) {
+					markers[user].setMap(null)
+				}
+				markers[user] = new MapLabel({
+					text: user,
+					position: new google.maps.LatLng(lat, lon),
+					map: map,
+					fontSize: 12,
+					align: "center"
+				})
+				var marker = new google.maps.Marker;
+				marker.bindTo("map", markers[user]);
+				marker.bindTo("position", markers[user]);
+				marker.setDraggable(false);
+				
+				google.maps.event.addListener(marker, 'click', function() {
+					console.log("HELLO !!!")
+				});
+				
+			} else if (evt.data === 'disconnected') {
+				console.log("done")
+				var message = "Connection to plane interrupted."
+				$("<div />", { 'class': 'alerttopbar', text: message }).hide().prependTo("body").slideDown('slow').delay(10000).slideUp(function() { $(this).remove(); });
+					
+				for (var key in markers) {
+					markers[key].setMap(null)
+				}
+				
+			} else {
+					console.log(evt.data)
+			}
+			
+		}
+
+		ws.onclose = function(evt) { 
+			console.log("done")
+			var message = "Connection to base station interrupted.\nTry to refresh this page."
+			notif_basestation.hide().prependTo("body").slideDown('slow');
+			notif_connected.slideUp(function() { $(this).remove(); });
+			for (var key in markers) {
+				markers[key].setMap(null)
+			}
+		};
+ 
+          ws.onopen = function(evt) { 
+			notif_basestation.slideUp(function() { $(this).remove(); });
+			notif_connected.hide().prependTo("body").slideDown('slow').delay(5000).slideUp(function() { $(this).remove(); });
+		  }
+        };
+
+
+</script>
+</head>
+<body style="margin:0px; padding:0px;" onload="initialize()">
+	<div id="map_canvas" style="width: 100%; height: 100%;"></div>
+</body>
+</html>

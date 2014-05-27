@@ -1,0 +1,28 @@
+
+#map_canvas {
+	padding:0px;
+	margin:0px;
+	top:0px;
+}
+
+#map-container{
+	padding:0px;
+	margin:0px;
+	top:0px;
+}
+
+.panel {
+	padding:0px;
+	margin:0px;
+}
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
