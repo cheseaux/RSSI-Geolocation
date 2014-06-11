@@ -82,13 +82,17 @@ class Sniffer():
 			sys.stdout.flush()
 			pass
 			
-	def reduceSearchArea(self, target='68:a8:6d:6e:a9:d8'):
+	def reduceSearchArea(self, target='c4:88:e5:24:3d:83'):
 		while True:
+			
 			(lat,lon) = self.localize_user(target,30,100)
 			self.writeFileForPilot(lat,lon,self.search_radius)
-			self.search_radius = self.search_radius * 0.75 #reduce radius for next iteration
 			print "Reducing search area to circle : %f,%f radius : %f" % (lat,lon,self.search_radius)
-			time.sleep(1*10)
+			self.search_radius = self.search_radius * 0.75 #reduce radius for next iteration
+			if (self.search_radius < 20.0):
+				break
+				
+			time.sleep(1*60*2)
 			
 			
 	def readRoutingInstructions(self):
@@ -106,9 +110,8 @@ class Sniffer():
 				self.t.start()
 				
 	def writeFileForPilot(self, center_x, center_y, radius, altitude=70):
-		f = open('routing_instructions.txt','w')
-		f.write("%f\t%f\t%f\t%f" % (center_x, center_y, altitude, radius))
-		f.close()
+		command = "./smavnet/gapi_sendcoordinates %f %f %f %f" % (center_x, center_y, altitude, radius)
+		os.system(command)
 
 	def compute_center_of_mass(self,samples, sort_tuple, map_pwr_func, pwr_thresh, beacon_thresh, beacon_rpt_int):
 		usr = list(set(samples))

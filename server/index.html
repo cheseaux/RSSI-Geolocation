@@ -110,28 +110,32 @@
 				var input = evt.data.substring(3);
 				var opt = input.split('\t');
 				var user = opt[0];
-				var lat = opt[1];
-				var lon = opt[2];
-				console.log(input)
-				var oldMarker = markers[user]
-				if (oldMarker !== undefined) {
-					markers[user].setMap(null)
-				}
-				markers[user] = new MapLabel({
-					text: user,
-					position: new google.maps.LatLng(lat, lon),
-					map: map,
-					fontSize: 12,
-					align: "center"
-				})
-				var marker = new google.maps.Marker;
-				marker.bindTo("map", markers[user]);
-				marker.bindTo("position", markers[user]);
-				marker.setDraggable(false);
+				console.log("AöLKJSFöLSAFJDSJ" + user)
+				if (user == "'c4:88:e5:24:3d:83'") {
 				
-				google.maps.event.addListener(marker, 'click', function() {
-					console.log("HELLO !!!")
-				});
+					var lat = opt[1];
+					var lon = opt[2];
+					console.log(input)
+					var oldMarker = markers[user]
+					if (oldMarker !== undefined) {
+						markers[user].setMap(null)
+					}
+					markers[user] = new MapLabel({
+						text: user,
+						position: new google.maps.LatLng(lat, lon),
+						map: map,
+						fontSize: 12,
+						align: "center"
+					})
+					var marker = new google.maps.Marker;
+					marker.bindTo("map", markers[user]);
+					marker.bindTo("position", markers[user]);
+					marker.setDraggable(false);
+					
+					google.maps.event.addListener(marker, 'click', function() {
+						
+					});
+				}
 				
 			} else if (evt.data === 'disconnected') {
 				console.log("done")
