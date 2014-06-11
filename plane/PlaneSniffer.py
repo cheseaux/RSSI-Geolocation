@@ -52,7 +52,7 @@ class Sniffer():
 		
 		#Decrease search area (radius, in meters)
 		self.reducing_search = False
-		self.search_radius = 400 
+		self.search_radius = 249 
 		
 		#Min acceptable power to localize users
 		self.MIN_POWER = 0
@@ -110,7 +110,7 @@ class Sniffer():
 				self.t.start()
 				
 	def writeFileForPilot(self, center_x, center_y, radius, altitude=70):
-		command = "./smavnet/gapi_sendcoordinates %f %f %f %f" % (center_x, center_y, altitude, radius)
+		command = "/smavnet/gapi_sendcoordinates %f %f %f %f" % (center_x, center_y, altitude, radius)
 		os.system(command)
 
 	def compute_center_of_mass(self,samples, sort_tuple, map_pwr_func, pwr_thresh, beacon_thresh, beacon_rpt_int):
