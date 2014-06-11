@@ -51,6 +51,17 @@ class TCPSender(Thread):
 		print "Sending KEEPALIVE"
 		threading.Timer(3, self.send_keepalive).start()	
 		
+	def receive(self):
+		if not self.connected:
+			return None
+			
+		data = self.s.recv(1024) 
+		if data: 
+			instructions = data.split("\n")
+			if data.lower().startswith("[routing]"):
+				(header, neLat,neLng,swLat,swLng) = data.split("\t")
+				
+		
 	def send(self, message):
 		try:
 			if not self.connected:

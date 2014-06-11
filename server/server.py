@@ -7,7 +7,16 @@ import threading
  
 ws = None
 
+onMessage = None
+
 class WSHandler(tornado.websocket.WebSocketHandler):
+	
+	@staticmethod
+	def subscribe(func):
+		global onMessage
+		print "subscribed"
+		onMessage = func
+	
 	def open(self):
 		global ws
 		print "Ws before : ",
@@ -17,7 +26,9 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 		print ws
 			  
 	def on_message(self, message):
+		global onMessage
 		print 'message received %s' % message
+		onMessage(message)
 
 	def on_close(self):
 		global ws

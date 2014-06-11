@@ -55,7 +55,7 @@
 						var SWbound = event.overlay.bounds.getSouthWest()
 						console.log(NEbound.lat())
 						console.log(marker.getMap())
-						ws.send(planeID + "\t" + NEbound.lat() +"\t"+ NEbound.lng() 
+						ws.send("[ROUTING]\t" + NEbound.lat() +"\t"+ NEbound.lng() 
 							+ "\t" + SWbound.lat() + "\t" + SWbound.lng())
 						event.overlay.setMap(null);
 						drawingManager.setMap(null);	

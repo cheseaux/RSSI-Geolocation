@@ -23,13 +23,24 @@ MAX_PLANE_NUMBER = 20
 def launch_server():
 	http_server = tornado.httpserver.HTTPServer(application)
 	http_server.listen(PORT)
+	WSHandler.subscribe(ClientThread.notifyRouting)
 	tornado.ioloop.IOLoop.instance().start()
+
+client_socket = None	
 
 class ClientThread( Thread ):
 
-	def __init__( self, client_sock, onLocalized, onPositionUpdated):		
+	@staticmethod
+	def notifyRouting(message):
+		global client_socket
+		print "PASSED FROM WSOCKET : " + message
+		client_socket.send(message)
+		
+	def __init__( self, server_sock, client_sock, onLocalized, onPositionUpdated):		
 		Thread.__init__( self )
 		self.client = client_sock
+		global client_socket
+		client_socket = client_sock
 		self.userPosition = {}
 		self.onLocalized = onLocalized
 		self.onPositionUpdated = onPositionUpdated
@@ -57,6 +68,7 @@ class ClientThread( Thread ):
 				strLine = (strBuffer + self.readline()).split('\n')
 				strBuffer = ""
 				for line in strLine:
+					line = line.lower()
 					if line.startswith("[plane]"):
 						line = line[7:]
 						(planeID,lat,lon, angle) = line.split('\t');
@@ -79,7 +91,9 @@ class ClientThread( Thread ):
 						self.onLocalized(user,lat,lon)
 						print "User %s should be located at %f, %f" % (user,lat,lon)
 					elif line.startswith("KEEPALIVE"):
-						self.last_keepalive = datetime.datetime.now()	
+						self.last_keepalive = datetime.datetime.now()
+					elif line.startswith("[routing]"):
+						(neLat, neLng, swLat, swLng) = line.split("\t")
 					else:
 						continue
 			
@@ -112,6 +126,7 @@ class Server():
 		print "Position received"
 		wsSend("[p]%r\t%f\t%f\t%d" % (planeID,lat,lon, int(angle)))
 		
+		
 	def run( self ):
 		
 		connected = False
@@ -131,7 +146,7 @@ class Server():
 		while not interrupted:
 			try:
 				client = self.sock.accept()[0]
-				new_thread = ClientThread( client, self.addGuess, self.addPlanePosition)
+				new_thread = ClientThread(self.sock, client, self.addGuess, self.addPlanePosition)
 				print 'Incoming plane connection'
 				self.thread_list.append( new_thread )
 				new_thread.start()

@@ -1,0 +1,496 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Google Maps - pygmaps </title>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="maplabel-compiled.js"></script><script type="text/javascript">
+	function initialize() {
+		var centerlatlng = new google.maps.LatLng(46.518550, 6.562460);
+		var myOptions = {
+			tilt:0,
+			zoom: 18,
+			center: centerlatlng,
+			mapTypeId: google.maps.MapTypeId.SATELLITE
+		};
+		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+var coords = [
+new google.maps.LatLng(46.518588, 6.562807),
+new google.maps.LatLng(46.518588, 6.562805),
+new google.maps.LatLng(46.518588, 6.562802),
+new google.maps.LatLng(46.518588, 6.562800),
+new google.maps.LatLng(46.518587, 6.562798),
+new google.maps.LatLng(46.518587, 6.562796),
+new google.maps.LatLng(46.518587, 6.562793),
+new google.maps.LatLng(46.518587, 6.562791),
+new google.maps.LatLng(46.518586, 6.562789),
+new google.maps.LatLng(46.518586, 6.562787),
+new google.maps.LatLng(46.518585, 6.562785),
+new google.maps.LatLng(46.518585, 6.562783),
+new google.maps.LatLng(46.518584, 6.562780),
+new google.maps.LatLng(46.518583, 6.562778),
+new google.maps.LatLng(46.518583, 6.562776),
+new google.maps.LatLng(46.518582, 6.562774),
+new google.maps.LatLng(46.518581, 6.562772),
+new google.maps.LatLng(46.518580, 6.562771),
+new google.maps.LatLng(46.518579, 6.562769),
+new google.maps.LatLng(46.518578, 6.562767),
+new google.maps.LatLng(46.518577, 6.562765),
+new google.maps.LatLng(46.518576, 6.562763),
+new google.maps.LatLng(46.518575, 6.562762),
+new google.maps.LatLng(46.518574, 6.562760),
+new google.maps.LatLng(46.518573, 6.562758),
+new google.maps.LatLng(46.518572, 6.562757),
+new google.maps.LatLng(46.518571, 6.562756),
+new google.maps.LatLng(46.518569, 6.562754),
+new google.maps.LatLng(46.518568, 6.562753),
+new google.maps.LatLng(46.518567, 6.562752),
+new google.maps.LatLng(46.518565, 6.562750),
+new google.maps.LatLng(46.518564, 6.562749),
+new google.maps.LatLng(46.518563, 6.562748),
+new google.maps.LatLng(46.518561, 6.562747),
+new google.maps.LatLng(46.518560, 6.562746),
+new google.maps.LatLng(46.518558, 6.562746),
+new google.maps.LatLng(46.518557, 6.562745),
+new google.maps.LatLng(46.518555, 6.562744),
+new google.maps.LatLng(46.518554, 6.562744),
+new google.maps.LatLng(46.518552, 6.562743),
+new google.maps.LatLng(46.518551, 6.562743),
+new google.maps.LatLng(46.518549, 6.562742),
+new google.maps.LatLng(46.518548, 6.562742),
+new google.maps.LatLng(46.518546, 6.562742),
+new google.maps.LatLng(46.518545, 6.562742),
+new google.maps.LatLng(46.518543, 6.562742),
+new google.maps.LatLng(46.518541, 6.562742),
+new google.maps.LatLng(46.518540, 6.562742),
+new google.maps.LatLng(46.518538, 6.562742),
+new google.maps.LatLng(46.518537, 6.562742),
+new google.maps.LatLng(46.518535, 6.562743),
+new google.maps.LatLng(46.518534, 6.562743),
+new google.maps.LatLng(46.518532, 6.562744),
+new google.maps.LatLng(46.518531, 6.562744),
+new google.maps.LatLng(46.518529, 6.562745),
+new google.maps.LatLng(46.518528, 6.562746),
+new google.maps.LatLng(46.518526, 6.562746),
+new google.maps.LatLng(46.518525, 6.562747),
+new google.maps.LatLng(46.518523, 6.562748),
+new google.maps.LatLng(46.518522, 6.562749),
+new google.maps.LatLng(46.518521, 6.562750),
+new google.maps.LatLng(46.518519, 6.562752),
+new google.maps.LatLng(46.518518, 6.562753),
+new google.maps.LatLng(46.518517, 6.562754),
+new google.maps.LatLng(46.518515, 6.562756),
+new google.maps.LatLng(46.518514, 6.562757),
+new google.maps.LatLng(46.518513, 6.562758),
+new google.maps.LatLng(46.518512, 6.562760),
+new google.maps.LatLng(46.518511, 6.562762),
+new google.maps.LatLng(46.518510, 6.562763),
+new google.maps.LatLng(46.518509, 6.562765),
+new google.maps.LatLng(46.518508, 6.562767),
+new google.maps.LatLng(46.518507, 6.562769),
+new google.maps.LatLng(46.518506, 6.562771),
+new google.maps.LatLng(46.518505, 6.562772),
+new google.maps.LatLng(46.518504, 6.562774),
+new google.maps.LatLng(46.518503, 6.562776),
+new google.maps.LatLng(46.518503, 6.562778),
+new google.maps.LatLng(46.518502, 6.562780),
+new google.maps.LatLng(46.518501, 6.562783),
+new google.maps.LatLng(46.518501, 6.562785),
+new google.maps.LatLng(46.518500, 6.562787),
+new google.maps.LatLng(46.518500, 6.562789),
+new google.maps.LatLng(46.518499, 6.562791),
+new google.maps.LatLng(46.518499, 6.562793),
+new google.maps.LatLng(46.518499, 6.562796),
+new google.maps.LatLng(46.518499, 6.562798),
+new google.maps.LatLng(46.518498, 6.562800),
+new google.maps.LatLng(46.518498, 6.562802),
+new google.maps.LatLng(46.518498, 6.562805),
+new google.maps.LatLng(46.518498, 6.562807),
+new google.maps.LatLng(46.518498, 6.562809),
+new google.maps.LatLng(46.518498, 6.562812),
+new google.maps.LatLng(46.518498, 6.562814),
+new google.maps.LatLng(46.518499, 6.562816),
+new google.maps.LatLng(46.518499, 6.562818),
+new google.maps.LatLng(46.518499, 6.562821),
+new google.maps.LatLng(46.518499, 6.562823),
+new google.maps.LatLng(46.518500, 6.562825),
+new google.maps.LatLng(46.518500, 6.562827),
+new google.maps.LatLng(46.518501, 6.562829),
+new google.maps.LatLng(46.518501, 6.562831),
+new google.maps.LatLng(46.518502, 6.562834),
+new google.maps.LatLng(46.518503, 6.562836),
+new google.maps.LatLng(46.518503, 6.562838),
+new google.maps.LatLng(46.518504, 6.562840),
+new google.maps.LatLng(46.518505, 6.562842),
+new google.maps.LatLng(46.518506, 6.562843),
+new google.maps.LatLng(46.518507, 6.562845),
+new google.maps.LatLng(46.518508, 6.562847),
+new google.maps.LatLng(46.518509, 6.562849),
+new google.maps.LatLng(46.518510, 6.562851),
+new google.maps.LatLng(46.518511, 6.562852),
+new google.maps.LatLng(46.518512, 6.562854),
+new google.maps.LatLng(46.518513, 6.562856),
+new google.maps.LatLng(46.518514, 6.562857),
+new google.maps.LatLng(46.518515, 6.562858),
+new google.maps.LatLng(46.518517, 6.562860),
+new google.maps.LatLng(46.518518, 6.562861),
+new google.maps.LatLng(46.518519, 6.562862),
+new google.maps.LatLng(46.518521, 6.562864),
+new google.maps.LatLng(46.518522, 6.562865),
+new google.maps.LatLng(46.518523, 6.562866),
+new google.maps.LatLng(46.518525, 6.562867),
+new google.maps.LatLng(46.518526, 6.562868),
+new google.maps.LatLng(46.518528, 6.562868),
+new google.maps.LatLng(46.518529, 6.562869),
+new google.maps.LatLng(46.518531, 6.562870),
+new google.maps.LatLng(46.518532, 6.562870),
+new google.maps.LatLng(46.518534, 6.562871),
+new google.maps.LatLng(46.518535, 6.562871),
+new google.maps.LatLng(46.518537, 6.562872),
+new google.maps.LatLng(46.518538, 6.562872),
+new google.maps.LatLng(46.518540, 6.562872),
+new google.maps.LatLng(46.518541, 6.562872),
+new google.maps.LatLng(46.518543, 6.562872),
+new google.maps.LatLng(46.518545, 6.562872),
+new google.maps.LatLng(46.518546, 6.562872),
+new google.maps.LatLng(46.518548, 6.562872),
+new google.maps.LatLng(46.518549, 6.562872),
+new google.maps.LatLng(46.518551, 6.562871),
+new google.maps.LatLng(46.518552, 6.562871),
+new google.maps.LatLng(46.518554, 6.562870),
+new google.maps.LatLng(46.518555, 6.562870),
+new google.maps.LatLng(46.518557, 6.562869),
+new google.maps.LatLng(46.518558, 6.562868),
+new google.maps.LatLng(46.518560, 6.562868),
+new google.maps.LatLng(46.518561, 6.562867),
+new google.maps.LatLng(46.518563, 6.562866),
+new google.maps.LatLng(46.518564, 6.562865),
+new google.maps.LatLng(46.518565, 6.562864),
+new google.maps.LatLng(46.518567, 6.562862),
+new google.maps.LatLng(46.518568, 6.562861),
+new google.maps.LatLng(46.518569, 6.562860),
+new google.maps.LatLng(46.518571, 6.562858),
+new google.maps.LatLng(46.518572, 6.562857),
+new google.maps.LatLng(46.518573, 6.562856),
+new google.maps.LatLng(46.518574, 6.562854),
+new google.maps.LatLng(46.518575, 6.562852),
+new google.maps.LatLng(46.518576, 6.562851),
+new google.maps.LatLng(46.518577, 6.562849),
+new google.maps.LatLng(46.518578, 6.562847),
+new google.maps.LatLng(46.518579, 6.562845),
+new google.maps.LatLng(46.518580, 6.562843),
+new google.maps.LatLng(46.518581, 6.562842),
+new google.maps.LatLng(46.518582, 6.562840),
+new google.maps.LatLng(46.518583, 6.562838),
+new google.maps.LatLng(46.518583, 6.562836),
+new google.maps.LatLng(46.518584, 6.562834),
+new google.maps.LatLng(46.518585, 6.562831),
+new google.maps.LatLng(46.518585, 6.562829),
+new google.maps.LatLng(46.518586, 6.562827),
+new google.maps.LatLng(46.518586, 6.562825),
+new google.maps.LatLng(46.518587, 6.562823),
+new google.maps.LatLng(46.518587, 6.562821),
+new google.maps.LatLng(46.518587, 6.562818),
+new google.maps.LatLng(46.518587, 6.562816),
+new google.maps.LatLng(46.518588, 6.562814),
+new google.maps.LatLng(46.518588, 6.562812),
+new google.maps.LatLng(46.518588, 6.562809),
+];
+
+var polygon = new google.maps.Polygon({
+clickable: false,
+geodesic: true,
+fillColor: "#000000",
+fillOpacity: 1.000000,
+paths: coords,
+strokeColor: "#0F000F",
+strokeOpacity: 1.000000,
+strokeWeight: 1
+});
+
+polygon.setMap(map);
+
+
+var mapLabel = new MapLabel({
+	text: "34.000000",
+	position: new google.maps.LatLng(46.517685, 6.563570),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "31.000000",
+	position: new google.maps.LatLng(46.517296, 6.563355),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "30.000000",
+	position: new google.maps.LatLng(46.518902, 6.560691),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "30.000000",
+	position: new google.maps.LatLng(46.519825, 6.563805),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "30.000000",
+	position: new google.maps.LatLng(46.520126, 6.564001),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "30.000000",
+	position: new google.maps.LatLng(46.517998, 6.562811),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "29.000000",
+	position: new google.maps.LatLng(46.519665, 6.563745),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "29.000000",
+	position: new google.maps.LatLng(46.517368, 6.564486),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "28.000000",
+	position: new google.maps.LatLng(46.518013, 6.562806),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "27.000000",
+	position: new google.maps.LatLng(46.518024, 6.562799),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "27.000000",
+	position: new google.maps.LatLng(46.519882, 6.563788),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "25.000000",
+	position: new google.maps.LatLng(46.519630, 6.563241),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "25.000000",
+	position: new google.maps.LatLng(46.520000, 6.563771),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "24.000000",
+	position: new google.maps.LatLng(46.519943, 6.564373),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "24.000000",
+	position: new google.maps.LatLng(46.518391, 6.562400),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "22.000000",
+	position: new google.maps.LatLng(46.518406, 6.562374),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "22.000000",
+	position: new google.maps.LatLng(46.517368, 6.564038),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "21.000000",
+	position: new google.maps.LatLng(46.518391, 6.562400),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "21.000000",
+	position: new google.maps.LatLng(46.518662, 6.564193),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "20.000000",
+	position: new google.maps.LatLng(46.517052, 6.564686),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "20.000000",
+	position: new google.maps.LatLng(46.517330, 6.563450),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "18.000000",
+	position: new google.maps.LatLng(46.518234, 6.564652),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "18.000000",
+	position: new google.maps.LatLng(46.518051, 6.563784),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "18.000000",
+	position: new google.maps.LatLng(46.517269, 6.564263),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "c4:88:e5:24:3d:83",
+	position: new google.maps.LatLng(46.518528, 6.563430),
+	map: map,
+	fontSize: 18,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+	}
+</script>
+</head>
+<body style="margin:0px; padding:0px;" onload="initialize()">
+	<div id="map_canvas" style="width: 100%; height: 100%;"></div>
+</body>
+</html>

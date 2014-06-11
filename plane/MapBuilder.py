@@ -105,6 +105,7 @@ class MapBuilder:
 	def drawmap(self, f):
 		f.write('\t\tvar centerlatlng = new google.maps.LatLng(%f, %f);\n' % (self.center[0], self.center[1]))
 		f.write('\t\tvar myOptions = {\n')
+		f.write('\t\t\ttilt:0,\n')
 		f.write('\t\t\tzoom: %d,\n' % (self.zoom))
 		f.write('\t\t\tcenter: centerlatlng,\n')
 		f.write('\t\t\tmapTypeId: google.maps.MapTypeId.%s\n' % self.mapType)

@@ -1,0 +1,3312 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Google Maps - pygmaps </title>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="maplabel-compiled.js"></script><script type="text/javascript">
+	function initialize() {
+		var centerlatlng = new google.maps.LatLng(46.518550, 6.562460);
+		var myOptions = {
+			tilt:0,
+			zoom: 18,
+			center: centerlatlng,
+			mapTypeId: google.maps.MapTypeId.SATELLITE
+		};
+		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+var coords = [
+new google.maps.LatLng(46.518595, 6.562460),
+new google.maps.LatLng(46.518595, 6.562458),
+new google.maps.LatLng(46.518595, 6.562455),
+new google.maps.LatLng(46.518595, 6.562453),
+new google.maps.LatLng(46.518594, 6.562451),
+new google.maps.LatLng(46.518594, 6.562449),
+new google.maps.LatLng(46.518594, 6.562446),
+new google.maps.LatLng(46.518594, 6.562444),
+new google.maps.LatLng(46.518593, 6.562442),
+new google.maps.LatLng(46.518593, 6.562440),
+new google.maps.LatLng(46.518592, 6.562438),
+new google.maps.LatLng(46.518592, 6.562436),
+new google.maps.LatLng(46.518591, 6.562433),
+new google.maps.LatLng(46.518590, 6.562431),
+new google.maps.LatLng(46.518590, 6.562429),
+new google.maps.LatLng(46.518589, 6.562427),
+new google.maps.LatLng(46.518588, 6.562425),
+new google.maps.LatLng(46.518587, 6.562424),
+new google.maps.LatLng(46.518586, 6.562422),
+new google.maps.LatLng(46.518585, 6.562420),
+new google.maps.LatLng(46.518584, 6.562418),
+new google.maps.LatLng(46.518583, 6.562416),
+new google.maps.LatLng(46.518582, 6.562415),
+new google.maps.LatLng(46.518581, 6.562413),
+new google.maps.LatLng(46.518580, 6.562411),
+new google.maps.LatLng(46.518579, 6.562410),
+new google.maps.LatLng(46.518578, 6.562409),
+new google.maps.LatLng(46.518576, 6.562407),
+new google.maps.LatLng(46.518575, 6.562406),
+new google.maps.LatLng(46.518574, 6.562405),
+new google.maps.LatLng(46.518572, 6.562403),
+new google.maps.LatLng(46.518571, 6.562402),
+new google.maps.LatLng(46.518570, 6.562401),
+new google.maps.LatLng(46.518568, 6.562400),
+new google.maps.LatLng(46.518567, 6.562399),
+new google.maps.LatLng(46.518565, 6.562399),
+new google.maps.LatLng(46.518564, 6.562398),
+new google.maps.LatLng(46.518562, 6.562397),
+new google.maps.LatLng(46.518561, 6.562397),
+new google.maps.LatLng(46.518559, 6.562396),
+new google.maps.LatLng(46.518558, 6.562396),
+new google.maps.LatLng(46.518556, 6.562395),
+new google.maps.LatLng(46.518555, 6.562395),
+new google.maps.LatLng(46.518553, 6.562395),
+new google.maps.LatLng(46.518552, 6.562395),
+new google.maps.LatLng(46.518550, 6.562395),
+new google.maps.LatLng(46.518548, 6.562395),
+new google.maps.LatLng(46.518547, 6.562395),
+new google.maps.LatLng(46.518545, 6.562395),
+new google.maps.LatLng(46.518544, 6.562395),
+new google.maps.LatLng(46.518542, 6.562396),
+new google.maps.LatLng(46.518541, 6.562396),
+new google.maps.LatLng(46.518539, 6.562397),
+new google.maps.LatLng(46.518538, 6.562397),
+new google.maps.LatLng(46.518536, 6.562398),
+new google.maps.LatLng(46.518535, 6.562399),
+new google.maps.LatLng(46.518533, 6.562399),
+new google.maps.LatLng(46.518532, 6.562400),
+new google.maps.LatLng(46.518530, 6.562401),
+new google.maps.LatLng(46.518529, 6.562402),
+new google.maps.LatLng(46.518528, 6.562403),
+new google.maps.LatLng(46.518526, 6.562405),
+new google.maps.LatLng(46.518525, 6.562406),
+new google.maps.LatLng(46.518524, 6.562407),
+new google.maps.LatLng(46.518522, 6.562409),
+new google.maps.LatLng(46.518521, 6.562410),
+new google.maps.LatLng(46.518520, 6.562411),
+new google.maps.LatLng(46.518519, 6.562413),
+new google.maps.LatLng(46.518518, 6.562415),
+new google.maps.LatLng(46.518517, 6.562416),
+new google.maps.LatLng(46.518516, 6.562418),
+new google.maps.LatLng(46.518515, 6.562420),
+new google.maps.LatLng(46.518514, 6.562422),
+new google.maps.LatLng(46.518513, 6.562424),
+new google.maps.LatLng(46.518512, 6.562425),
+new google.maps.LatLng(46.518511, 6.562427),
+new google.maps.LatLng(46.518510, 6.562429),
+new google.maps.LatLng(46.518510, 6.562431),
+new google.maps.LatLng(46.518509, 6.562433),
+new google.maps.LatLng(46.518508, 6.562436),
+new google.maps.LatLng(46.518508, 6.562438),
+new google.maps.LatLng(46.518507, 6.562440),
+new google.maps.LatLng(46.518507, 6.562442),
+new google.maps.LatLng(46.518506, 6.562444),
+new google.maps.LatLng(46.518506, 6.562446),
+new google.maps.LatLng(46.518506, 6.562449),
+new google.maps.LatLng(46.518506, 6.562451),
+new google.maps.LatLng(46.518505, 6.562453),
+new google.maps.LatLng(46.518505, 6.562455),
+new google.maps.LatLng(46.518505, 6.562458),
+new google.maps.LatLng(46.518505, 6.562460),
+new google.maps.LatLng(46.518505, 6.562462),
+new google.maps.LatLng(46.518505, 6.562465),
+new google.maps.LatLng(46.518505, 6.562467),
+new google.maps.LatLng(46.518506, 6.562469),
+new google.maps.LatLng(46.518506, 6.562471),
+new google.maps.LatLng(46.518506, 6.562474),
+new google.maps.LatLng(46.518506, 6.562476),
+new google.maps.LatLng(46.518507, 6.562478),
+new google.maps.LatLng(46.518507, 6.562480),
+new google.maps.LatLng(46.518508, 6.562482),
+new google.maps.LatLng(46.518508, 6.562484),
+new google.maps.LatLng(46.518509, 6.562487),
+new google.maps.LatLng(46.518510, 6.562489),
+new google.maps.LatLng(46.518510, 6.562491),
+new google.maps.LatLng(46.518511, 6.562493),
+new google.maps.LatLng(46.518512, 6.562495),
+new google.maps.LatLng(46.518513, 6.562496),
+new google.maps.LatLng(46.518514, 6.562498),
+new google.maps.LatLng(46.518515, 6.562500),
+new google.maps.LatLng(46.518516, 6.562502),
+new google.maps.LatLng(46.518517, 6.562504),
+new google.maps.LatLng(46.518518, 6.562505),
+new google.maps.LatLng(46.518519, 6.562507),
+new google.maps.LatLng(46.518520, 6.562509),
+new google.maps.LatLng(46.518521, 6.562510),
+new google.maps.LatLng(46.518522, 6.562511),
+new google.maps.LatLng(46.518524, 6.562513),
+new google.maps.LatLng(46.518525, 6.562514),
+new google.maps.LatLng(46.518526, 6.562515),
+new google.maps.LatLng(46.518528, 6.562517),
+new google.maps.LatLng(46.518529, 6.562518),
+new google.maps.LatLng(46.518530, 6.562519),
+new google.maps.LatLng(46.518532, 6.562520),
+new google.maps.LatLng(46.518533, 6.562521),
+new google.maps.LatLng(46.518535, 6.562521),
+new google.maps.LatLng(46.518536, 6.562522),
+new google.maps.LatLng(46.518538, 6.562523),
+new google.maps.LatLng(46.518539, 6.562523),
+new google.maps.LatLng(46.518541, 6.562524),
+new google.maps.LatLng(46.518542, 6.562524),
+new google.maps.LatLng(46.518544, 6.562525),
+new google.maps.LatLng(46.518545, 6.562525),
+new google.maps.LatLng(46.518547, 6.562525),
+new google.maps.LatLng(46.518548, 6.562525),
+new google.maps.LatLng(46.518550, 6.562525),
+new google.maps.LatLng(46.518552, 6.562525),
+new google.maps.LatLng(46.518553, 6.562525),
+new google.maps.LatLng(46.518555, 6.562525),
+new google.maps.LatLng(46.518556, 6.562525),
+new google.maps.LatLng(46.518558, 6.562524),
+new google.maps.LatLng(46.518559, 6.562524),
+new google.maps.LatLng(46.518561, 6.562523),
+new google.maps.LatLng(46.518562, 6.562523),
+new google.maps.LatLng(46.518564, 6.562522),
+new google.maps.LatLng(46.518565, 6.562521),
+new google.maps.LatLng(46.518567, 6.562521),
+new google.maps.LatLng(46.518568, 6.562520),
+new google.maps.LatLng(46.518570, 6.562519),
+new google.maps.LatLng(46.518571, 6.562518),
+new google.maps.LatLng(46.518572, 6.562517),
+new google.maps.LatLng(46.518574, 6.562515),
+new google.maps.LatLng(46.518575, 6.562514),
+new google.maps.LatLng(46.518576, 6.562513),
+new google.maps.LatLng(46.518578, 6.562511),
+new google.maps.LatLng(46.518579, 6.562510),
+new google.maps.LatLng(46.518580, 6.562509),
+new google.maps.LatLng(46.518581, 6.562507),
+new google.maps.LatLng(46.518582, 6.562505),
+new google.maps.LatLng(46.518583, 6.562504),
+new google.maps.LatLng(46.518584, 6.562502),
+new google.maps.LatLng(46.518585, 6.562500),
+new google.maps.LatLng(46.518586, 6.562498),
+new google.maps.LatLng(46.518587, 6.562496),
+new google.maps.LatLng(46.518588, 6.562495),
+new google.maps.LatLng(46.518589, 6.562493),
+new google.maps.LatLng(46.518590, 6.562491),
+new google.maps.LatLng(46.518590, 6.562489),
+new google.maps.LatLng(46.518591, 6.562487),
+new google.maps.LatLng(46.518592, 6.562484),
+new google.maps.LatLng(46.518592, 6.562482),
+new google.maps.LatLng(46.518593, 6.562480),
+new google.maps.LatLng(46.518593, 6.562478),
+new google.maps.LatLng(46.518594, 6.562476),
+new google.maps.LatLng(46.518594, 6.562474),
+new google.maps.LatLng(46.518594, 6.562471),
+new google.maps.LatLng(46.518594, 6.562469),
+new google.maps.LatLng(46.518595, 6.562467),
+new google.maps.LatLng(46.518595, 6.562465),
+new google.maps.LatLng(46.518595, 6.562462),
+];
+
+var polygon = new google.maps.Polygon({
+clickable: false,
+geodesic: true,
+fillColor: "#000000",
+fillOpacity: 1.000000,
+paths: coords,
+strokeColor: "#0F000F",
+strokeOpacity: 1.000000,
+strokeWeight: 1
+});
+
+polygon.setMap(map);
+
+
+var mapLabel = new MapLabel({
+	text: "78.000000",
+	position: new google.maps.LatLng(46.518761, 6.563050),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "78.000000",
+	position: new google.maps.LatLng(46.518761, 6.563054),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "77.000000",
+	position: new google.maps.LatLng(46.518776, 6.563341),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "76.000000",
+	position: new google.maps.LatLng(46.518379, 6.562834),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "76.000000",
+	position: new google.maps.LatLng(46.518383, 6.562838),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "76.000000",
+	position: new google.maps.LatLng(46.518772, 6.563329),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "75.000000",
+	position: new google.maps.LatLng(46.518383, 6.562838),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "75.000000",
+	position: new google.maps.LatLng(46.518765, 6.563321),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "75.000000",
+	position: new google.maps.LatLng(46.518379, 6.562835),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "74.000000",
+	position: new google.maps.LatLng(46.518307, 6.562383),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "73.000000",
+	position: new google.maps.LatLng(46.518356, 6.563272),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "73.000000",
+	position: new google.maps.LatLng(46.518372, 6.562984),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "73.000000",
+	position: new google.maps.LatLng(46.518307, 6.562376),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "72.000000",
+	position: new google.maps.LatLng(46.518353, 6.563375),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "72.000000",
+	position: new google.maps.LatLng(46.518375, 6.562977),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "72.000000",
+	position: new google.maps.LatLng(46.518360, 6.563234),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "71.000000",
+	position: new google.maps.LatLng(46.518360, 6.562795),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "71.000000",
+	position: new google.maps.LatLng(46.518356, 6.563298),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "71.000000",
+	position: new google.maps.LatLng(46.518356, 6.562966),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "71.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "71.000000",
+	position: new google.maps.LatLng(46.518356, 6.563298),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "71.000000",
+	position: new google.maps.LatLng(46.518765, 6.563232),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "71.000000",
+	position: new google.maps.LatLng(46.518349, 6.563388),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "71.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "70.000000",
+	position: new google.maps.LatLng(46.518353, 6.562794),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "70.000000",
+	position: new google.maps.LatLng(46.518349, 6.563413),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "70.000000",
+	position: new google.maps.LatLng(46.518772, 6.563282),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "70.000000",
+	position: new google.maps.LatLng(46.518742, 6.563011),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "70.000000",
+	position: new google.maps.LatLng(46.518375, 6.562960),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "70.000000",
+	position: new google.maps.LatLng(46.518742, 6.563014),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "70.000000",
+	position: new google.maps.LatLng(46.518761, 6.563196),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "70.000000",
+	position: new google.maps.LatLng(46.518650, 6.562645),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "70.000000",
+	position: new google.maps.LatLng(46.518356, 6.562796),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "70.000000",
+	position: new google.maps.LatLng(46.518356, 6.562799),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "69.000000",
+	position: new google.maps.LatLng(46.518360, 6.563260),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "69.000000",
+	position: new google.maps.LatLng(46.518314, 6.562457),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "69.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "69.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "69.000000",
+	position: new google.maps.LatLng(46.518787, 6.563343),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "69.000000",
+	position: new google.maps.LatLng(46.518322, 6.562291),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "69.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "69.000000",
+	position: new google.maps.LatLng(46.518322, 6.562291),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "69.000000",
+	position: new google.maps.LatLng(46.518642, 6.562620),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "69.000000",
+	position: new google.maps.LatLng(46.518364, 6.562271),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "69.000000",
+	position: new google.maps.LatLng(46.518364, 6.562274),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518639, 6.562607),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518742, 6.563004),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518742, 6.562989),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518692, 6.562771),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518398, 6.562783),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518646, 6.562632),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518356, 6.563272),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518364, 6.562276),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518364, 6.562270),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518402, 6.562281),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "68.000000",
+	position: new google.maps.LatLng(46.518314, 6.562277),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518700, 6.562806),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518398, 6.562789),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518394, 6.562777),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518402, 6.562281),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518394, 6.562775),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518742, 6.562989),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518414, 6.562284),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518368, 6.562269),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "67.000000",
+	position: new google.maps.LatLng(46.518318, 6.562479),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518318, 6.562285),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518414, 6.562286),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518562, 6.562298),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518440, 6.562245),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518406, 6.562646),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518314, 6.562470),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518307, 6.562272),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518753, 6.563173),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518311, 6.562266),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518341, 6.562263),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518311, 6.562266),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518299, 6.562260),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518806, 6.563433),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "66.000000",
+	position: new google.maps.LatLng(46.518406, 6.562282),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518387, 6.562821),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518402, 6.562642),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518562, 6.562295),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518444, 6.562248),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518562, 6.562306),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518700, 6.562788),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518387, 6.562821),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518299, 6.562260),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518341, 6.562263),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518406, 6.562651),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518314, 6.562281),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "65.000000",
+	position: new google.maps.LatLng(46.518562, 6.562305),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518322, 6.562319),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518440, 6.562246),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518581, 6.562414),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518402, 6.562726),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518402, 6.562642),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518391, 6.562269),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518322, 6.562315),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518303, 6.562261),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518402, 6.562726),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518303, 6.562261),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518303, 6.562261),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518562, 6.562307),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518444, 6.562247),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518295, 6.562261),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "64.000000",
+	position: new google.maps.LatLng(46.518581, 6.562418),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "63.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "63.000000",
+	position: new google.maps.LatLng(46.518223, 6.562201),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "63.000000",
+	position: new google.maps.LatLng(46.518223, 6.562202),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "63.000000",
+	position: new google.maps.LatLng(46.518318, 6.562479),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "63.000000",
+	position: new google.maps.LatLng(46.518749, 6.563146),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "63.000000",
+	position: new google.maps.LatLng(46.518356, 6.562263),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "63.000000",
+	position: new google.maps.LatLng(46.518421, 6.562276),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518242, 6.562214),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518360, 6.562265),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518620, 6.562531),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518612, 6.562514),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518600, 6.562402),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518394, 6.562605),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518330, 6.562304),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518265, 6.562228),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518581, 6.562397),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518242, 6.562215),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518421, 6.562275),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518387, 6.562821),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518223, 6.562201),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518284, 6.562224),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518398, 6.562717),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518581, 6.562408),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518238, 6.562212),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518383, 6.562593),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518398, 6.562717),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518356, 6.562263),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518303, 6.562260),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518265, 6.562224),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518383, 6.562593),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518402, 6.562730),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "62.000000",
+	position: new google.maps.LatLng(46.518314, 6.562330),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518391, 6.562601),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518604, 6.562410),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518265, 6.562223),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518223, 6.562201),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518364, 6.562266),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518398, 6.562712),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518230, 6.562211),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518295, 6.562261),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518600, 6.562403),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518383, 6.562819),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518227, 6.562210),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518318, 6.562322),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518581, 6.562391),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518311, 6.562335),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518700, 6.562806),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518616, 6.562524),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518265, 6.562226),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518242, 6.562216),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "61.000000",
+	position: new google.maps.LatLng(46.518364, 6.562267),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518234, 6.562212),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518391, 6.562601),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518223, 6.562202),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518360, 6.562266),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518284, 6.562224),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518604, 6.562410),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518620, 6.562527),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518696, 6.562779),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518230, 6.562211),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518269, 6.562229),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518223, 6.562208),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "60.000000",
+	position: new google.maps.LatLng(46.518326, 6.562311),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "59.000000",
+	position: new google.maps.LatLng(46.518223, 6.562204),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "59.000000",
+	position: new google.maps.LatLng(46.518227, 6.562209),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "59.000000",
+	position: new google.maps.LatLng(46.518558, 6.562288),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "59.000000",
+	position: new google.maps.LatLng(46.518604, 6.562410),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "59.000000",
+	position: new google.maps.LatLng(46.518223, 6.562209),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "59.000000",
+	position: new google.maps.LatLng(46.518223, 6.562201),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "59.000000",
+	position: new google.maps.LatLng(46.518223, 6.562206),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "59.000000",
+	position: new google.maps.LatLng(46.518375, 6.562267),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "58.000000",
+	position: new google.maps.LatLng(46.518375, 6.562267),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "58.000000",
+	position: new google.maps.LatLng(46.518558, 6.562280),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "58.000000",
+	position: new google.maps.LatLng(46.518284, 6.562224),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "58.000000",
+	position: new google.maps.LatLng(46.518402, 6.562737),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "58.000000",
+	position: new google.maps.LatLng(46.518284, 6.562223),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "58.000000",
+	position: new google.maps.LatLng(46.518383, 6.562263),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "57.000000",
+	position: new google.maps.LatLng(46.518558, 6.562280),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "57.000000",
+	position: new google.maps.LatLng(46.518558, 6.562284),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "57.000000",
+	position: new google.maps.LatLng(46.518387, 6.562821),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "57.000000",
+	position: new google.maps.LatLng(46.518379, 6.562271),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "57.000000",
+	position: new google.maps.LatLng(46.518223, 6.562208),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "57.000000",
+	position: new google.maps.LatLng(46.518246, 6.562217),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "57.000000",
+	position: new google.maps.LatLng(46.518391, 6.562260),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "57.000000",
+	position: new google.maps.LatLng(46.518303, 6.562339),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "57.000000",
+	position: new google.maps.LatLng(46.518562, 6.562255),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "56.000000",
+	position: new google.maps.LatLng(46.518558, 6.562251),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "56.000000",
+	position: new google.maps.LatLng(46.518379, 6.562271),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "56.000000",
+	position: new google.maps.LatLng(46.518558, 6.562281),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "56.000000",
+	position: new google.maps.LatLng(46.518562, 6.562254),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "55.000000",
+	position: new google.maps.LatLng(46.518558, 6.562271),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "55.000000",
+	position: new google.maps.LatLng(46.518558, 6.562251),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "55.000000",
+	position: new google.maps.LatLng(46.518558, 6.562278),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "55.000000",
+	position: new google.maps.LatLng(46.518402, 6.562614),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "55.000000",
+	position: new google.maps.LatLng(46.518562, 6.562258),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "55.000000",
+	position: new google.maps.LatLng(46.518558, 6.562280),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "54.000000",
+	position: new google.maps.LatLng(46.518562, 6.562346),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "54.000000",
+	position: new google.maps.LatLng(46.518593, 6.562373),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "54.000000",
+	position: new google.maps.LatLng(46.518223, 6.562201),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "54.000000",
+	position: new google.maps.LatLng(46.518589, 6.562401),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "54.000000",
+	position: new google.maps.LatLng(46.518604, 6.562410),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "54.000000",
+	position: new google.maps.LatLng(46.518558, 6.562352),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "54.000000",
+	position: new google.maps.LatLng(46.518593, 6.562373),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "54.000000",
+	position: new google.maps.LatLng(46.518600, 6.562385),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "54.000000",
+	position: new google.maps.LatLng(46.518223, 6.562205),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "54.000000",
+	position: new google.maps.LatLng(46.518600, 6.562387),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "54.000000",
+	position: new google.maps.LatLng(46.518562, 6.562283),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "53.000000",
+	position: new google.maps.LatLng(46.518558, 6.562275),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "53.000000",
+	position: new google.maps.LatLng(46.518562, 6.562290),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "53.000000",
+	position: new google.maps.LatLng(46.518574, 6.562373),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "53.000000",
+	position: new google.maps.LatLng(46.518555, 6.562264),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "53.000000",
+	position: new google.maps.LatLng(46.518555, 6.562269),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "53.000000",
+	position: new google.maps.LatLng(46.518574, 6.562375),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "53.000000",
+	position: new google.maps.LatLng(46.518562, 6.562253),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "53.000000",
+	position: new google.maps.LatLng(46.518398, 6.562260),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "53.000000",
+	position: new google.maps.LatLng(46.518562, 6.562292),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518604, 6.562410),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518604, 6.562410),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518593, 6.562374),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518562, 6.562343),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518604, 6.562410),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518574, 6.562375),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518574, 6.562366),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518562, 6.562291),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518562, 6.562261),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518593, 6.562377),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518562, 6.562294),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "52.000000",
+	position: new google.maps.LatLng(46.518585, 6.562397),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "51.000000",
+	position: new google.maps.LatLng(46.518558, 6.562273),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "51.000000",
+	position: new google.maps.LatLng(46.518578, 6.562368),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "51.000000",
+	position: new google.maps.LatLng(46.518558, 6.562330),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "51.000000",
+	position: new google.maps.LatLng(46.518574, 6.562370),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "51.000000",
+	position: new google.maps.LatLng(46.518558, 6.562338),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "51.000000",
+	position: new google.maps.LatLng(46.518589, 6.562399),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "50.000000",
+	position: new google.maps.LatLng(46.518574, 6.562376),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "50.000000",
+	position: new google.maps.LatLng(46.518578, 6.562369),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "50.000000",
+	position: new google.maps.LatLng(46.518600, 6.562371),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "50.000000",
+	position: new google.maps.LatLng(46.518600, 6.562375),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "50.000000",
+	position: new google.maps.LatLng(46.518600, 6.562380),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "50.000000",
+	position: new google.maps.LatLng(46.518562, 6.562270),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "50.000000",
+	position: new google.maps.LatLng(46.518574, 6.562375),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "50.000000",
+	position: new google.maps.LatLng(46.518574, 6.562377),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "49.000000",
+	position: new google.maps.LatLng(46.518581, 6.562398),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "49.000000",
+	position: new google.maps.LatLng(46.518574, 6.562377),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "49.000000",
+	position: new google.maps.LatLng(46.518597, 6.562367),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "48.000000",
+	position: new google.maps.LatLng(46.518597, 6.562383),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "47.000000",
+	position: new google.maps.LatLng(46.518581, 6.562370),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "45.000000",
+	position: new google.maps.LatLng(46.518612, 6.562417),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "43.000000",
+	position: new google.maps.LatLng(46.518581, 6.562398),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "30.000000",
+	position: new google.maps.LatLng(46.518356, 6.563311),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "28.000000",
+	position: new google.maps.LatLng(46.518307, 6.562383),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "27.000000",
+	position: new google.maps.LatLng(46.518356, 6.563323),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "27.000000",
+	position: new google.maps.LatLng(46.518753, 6.563018),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "25.000000",
+	position: new google.maps.LatLng(46.518303, 6.562394),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "25.000000",
+	position: new google.maps.LatLng(46.518791, 6.563391),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "25.000000",
+	position: new google.maps.LatLng(46.518398, 6.562795),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "22.000000",
+	position: new google.maps.LatLng(46.518353, 6.563336),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "22.000000",
+	position: new google.maps.LatLng(46.518379, 6.562829),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "22.000000",
+	position: new google.maps.LatLng(46.518753, 6.563025),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "20.000000",
+	position: new google.maps.LatLng(46.518349, 6.563439),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "20.000000",
+	position: new google.maps.LatLng(46.518341, 6.563567),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "19.000000",
+	position: new google.maps.LatLng(46.518349, 6.563413),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "18.000000",
+	position: new google.maps.LatLng(46.518402, 6.562614),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "17.000000",
+	position: new google.maps.LatLng(46.518742, 6.562988),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "14.000000",
+	position: new google.maps.LatLng(46.518570, 6.562351),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "13.000000",
+	position: new google.maps.LatLng(46.518303, 6.562269),
+	map: map,
+	fontSize: 12,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+var mapLabel = new MapLabel({
+	text: "c4:88:e5:24:3d:83",
+	position: new google.maps.LatLng(46.518448, 6.562577),
+	map: map,
+	fontSize: 18,
+	align: "center"
+})
+var marker = new google.maps.Marker;
+	marker.bindTo("map", mapLabel);
+	marker.bindTo("position", mapLabel);
+	marker.setDraggable(true);
+	}
+</script>
+</head>
+<body style="margin:0px; padding:0px;" onload="initialize()">
+	<div id="map_canvas" style="width: 100%; height: 100%;"></div>
+</body>
+</html>

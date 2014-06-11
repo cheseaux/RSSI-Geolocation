@@ -8,7 +8,7 @@ from MapBuilder import *
 import time
 
 class GoogleMapDisplay(QtGui.QMainWindow):
-	def __init__(self, lat0=46.51860809, lon0=6.559470177, zoom=20):
+	def __init__(self, lat0=46.51860809, lon0=6.559470177, zoom=20, output_file="mymap.html"):
 		"""
 			Initialize the browser GUI and connect the events
 		"""
@@ -18,7 +18,7 @@ class GoogleMapDisplay(QtGui.QMainWindow):
 
 		self.mainLayout = QtGui.QHBoxLayout(self.centralwidget)
 		self.mainLayout.setSpacing(0)
-
+		self.output_file = output_file
 		self.html = QtWebKit.QWebView()
 		self.mainLayout.addWidget(self.html)
 		self.setCentralWidget(self.centralwidget)
@@ -48,9 +48,9 @@ class GoogleMapDisplay(QtGui.QMainWindow):
 	def clear(self):
 		self.mymap.clear()
 
-	def drawMap(self, url='../res/mymap.html'):
-		self.mymap.draw(url)
-		self.html.load(QtCore.QUrl(url))
+	def drawMap(self):
+		self.mymap.draw(self.output_file)
+		self.html.load(QtCore.QUrl(self.output_file))
 		self.html.show()
 
 	

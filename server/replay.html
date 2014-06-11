@@ -23,18 +23,22 @@
          	for (var i = 0; i < 360; i++) { 
          		window.images[i] = "../res/images/robot/plane"+i+".png"
          	}
-         	
+         	window.planemarkers = {};
          	window.markers = {};
 
 		}
- 
+		
+		var toDisplay = {};
+		
+		
 		function setPlanePosition(plane, lat, lon, angle) {
 			var angle = (360 - parseInt(angle)) % 360;
-			var oldMarker = window.markers[plane]
+			console.log(angle)
+			var oldMarker = window.planemarkers[plane]
 			if (oldMarker !== undefined) {
-				window.markers[plane].setMap(null)
+				window.planemarkers[plane].setMap(null)
 			}
-			window.markers[plane] = new MapLabel({
+			window.planemarkers[plane] = new MapLabel({
 				position: new google.maps.LatLng(lat, lon),
 				map: window.map,
 				fontSize: 12,
@@ -42,7 +46,7 @@
 			});
 			var image = {
 				url: images[angle],
-				size: new google.maps.Size(64, 64),
+				size: new google.maps.Size(72, 72),
 				origin: new google.maps.Point(0,0),
 				anchor: new google.maps.Point(32, 32)
 			};
@@ -50,8 +54,8 @@
 			var marker = new google.maps.Marker({
 				icon: image
 			});
-			marker.bindTo("map", window.markers[plane]);
-			marker.bindTo("position", window.markers[plane]);
+			marker.bindTo("map", window.planemarkers[plane]);
+			marker.bindTo("position", window.planemarkers[plane]);
 			marker.setDraggable(false);
 			
 		};
@@ -62,21 +66,22 @@
 		
 		var fileLoaded = false
 		
+		
 		function doReplay() {
 			line = window.lines[current_item];
 			items = line.split('\t');
-			console.log(line)
 			type = items[0]
 			ts = items[1]
 			
 			if (type.indexOf('[COORD]')==0) {
 				lat = items[3]
 				lon = items[4]
-				setPlanePosition('test', lat, lon, 0)
+				angle = items[6]
+				setPlanePosition('test', lat, lon, angle)
 			}
 			
 			if (type.indexOf('[LOCAL]')==0) {
-				user = items[2]
+				user = items[2].substring(1, items[2].length-1)
 				lat = items[3]
 				lon = items[4]
 				setUserPosition(user, lat, lon)
@@ -111,7 +116,6 @@
 		}
 		
 		function onForward() {
-			console.log('OnForward speed ' + speed)
 			if (speed < 20) {
 				speed += 1.0;
 			}
@@ -131,13 +135,29 @@
 		function onStop() {
 			play = false;
 			current_item = 0;
+
+         	for (var marker in window.markers) { 
+				window.markers[marker].setMap(null);
+         	}
+         	for (var marker in window.planemarkers) { 
+				window.planemarkers[marker].setMap(null);
+         	}
+         	window.planemarkers = {};
+         	window.markers = {};
+         	toDisplay = {};
 		}
 	  
 		function setUserPosition(user, lat, lon) {
+			mac = document.getElementById("macaddresses").value.split(',');
 			var oldMarker = window.markers[user]
+			if (!(user in toDisplay)) {
+				toDisplay[user] = true
+			}
+			
 			if (oldMarker !== undefined) {
 				window.markers[user].setMap(null);
 			}
+			
 			window.markers[user] = new MapLabel({
 				text: user,
 				position: new google.maps.LatLng(lat, lon),
@@ -146,36 +166,49 @@
 				align: "center"
 			})
 			var marker = new google.maps.Marker;
-			marker.bindTo("map", window.markers[user]);
-			marker.bindTo("position", window.markers[user]);
-			marker.setDraggable(false);
+			if (toDisplay[user]) {
+				marker.bindTo("map", window.markers[user]);
+				marker.bindTo("position", window.markers[user]);
+				marker.setDraggable(false);
+			} else {
+				window.markers[user].setMap(null);
+			}
+			clean()
+			
+			
 		};
 		
-		var blackList = [];
-		filtered = false;
+		var filtered = false;
+		var mac = [];
 		
 		function clean() {
-			console.log("cleaning")
+			if (filtered) {
+				for (user in toDisplay) {
+					if ($.inArray(user, mac) == -1) {
+						toDisplay[user] = false;
+					} else {
+						toDisplay[user] = true;
+					}
+				}
+			} else {
+				for (user in toDisplay) {
+					toDisplay[user] = true;
+				}
+			}
 			for (var marker in window.markers) { 
-				marker = marker.substring(1, marker.length-1);
-				console.log("Marker : " + marker)
-				console.log("InMarker : " + blackList)
-         		if ($.inArray(marker, blackList) != -1) {
-					console.log("found!")
-					marker.setMap(null);
+         		if (!toDisplay[marker]) {
+					console.log("can't display " + marker)
+					window.markers[marker].setMap(null);
+				} else {
+					window.markers[marker].setMap(window.map);
 				}
          	}
 		}
 		
 		function enableMACFilter(cbox) {
 			filtered = (cbox.checked == 0 ? false : true);
-			console.log("filtered = " + filtered)
-			if (filtered) {
-				mac = document.getElementById("macaddresses").value;
-				blackList.push(mac);
-				console.log(mac + " added to blacklist");
-				clean()
-			}
+			mac = document.getElementById("macaddresses").value.split(',');
+			clean()			
 		}
          
          
