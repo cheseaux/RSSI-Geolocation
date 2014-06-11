@@ -60,7 +60,8 @@ class TCPSender(Thread):
 			instructions = data.split("\n")
 			if data.lower().startswith("[routing]"):
 				(header, neLat,neLng,swLat,swLng) = data.split("\t")
-				
+				return (header, neLat,neLng,swLat,swLng)
+		return None
 		
 	def send(self, message):
 		try:

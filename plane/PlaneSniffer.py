@@ -10,10 +10,10 @@ from TCPSender import *
 from GPSUtil import *
 
 #Comment below import when running from the gumstix:
-import csv
-from GoogleMapDisplay import *
+#import csv
+#from GoogleMapDisplay import *
 
-FLIGHT_MODE = False
+FLIGHT_MODE = True
 
 if not FLIGHT_MODE:
 	app = None	
@@ -50,6 +50,10 @@ class Sniffer():
 		#Detected wireless clients and their signal's power + coordinates of the plane
 		self.clientsSignalPower = {}
 		
+		#Decrease search area (radius, in meters)
+		self.reducing_search = False
+		self.search_radius = 400 
+		
 		#Min acceptable power to localize users
 		self.MIN_POWER = 0
 		
@@ -78,10 +82,33 @@ class Sniffer():
 			sys.stdout.flush()
 			pass
 			
+	def reduceSearchArea(self, target='68:a8:6d:6e:a9:d8'):
+		while True:
+			(lat,lon) = self.localize_user(target,30,100)
+			self.writeFileForPilot(lat,lon,self.search_radius)
+			self.search_radius = self.search_radius * 0.75 #reduce radius for next iteration
+			print "Reducing search area to circle : %f,%f radius : %f" % (lat,lon,self.search_radius)
+			time.sleep(1*10)
+			
+			
 	def readRoutingInstructions(self):
 		while True:
-			(neLat,neLng,swLat,swLng) = self.sender.receive()
-			print "Received new coordinates of flight ! %r %r %r %r" % (neLat,neLng,swLat,swLng)
+			instructions = self.sender.receive()
+			if not instructions == None:
+				radius = 400 #meters
+				(event, neLat,neLng,swLat,swLng) = instructions
+				print "Received new coordinates of flight ! %r %r %r %r" % (neLat,neLng,swLat,swLng)
+				#compute the center:
+				center_x = (float(neLat) + float(swLat)) / 2.0
+				center_y = (float(neLng) + float(swLng)) / 2.0
+				self.writeFileForPilot(center_x,center_y,radius)
+				self.t = Thread(target=self.reduceSearchArea, args = (''))
+				self.t.start()
+				
+	def writeFileForPilot(self, center_x, center_y, radius, altitude=70):
+		f = open('routing_instructions.txt','w')
+		f.write("%f\t%f\t%f\t%f" % (center_x, center_y, altitude, radius))
+		f.close()
 
 	def compute_center_of_mass(self,samples, sort_tuple, map_pwr_func, pwr_thresh, beacon_thresh, beacon_rpt_int):
 		usr = list(set(samples))
@@ -96,7 +123,12 @@ class Sniffer():
 		for (lat,lon,alt,pwr,mac) in usr[0:min(len(usr),beacon_thresh)]:
 			if pwr >= pwr_thresh and lat > 0.0 and lon > 0.0:
 				pwr = map_pwr_func(pwr)
-				self.gMapDisplay.addLabel(lat, lon, text="%f" % (pwr))
+				
+				###DISABLED IN FLIGHT MODE !
+				if not FLIGHT_MODE:
+					self.gMapDisplay.addLabel(lat, lon, text="%f" % (pwr))
+				#############################
+				
 				pwrs.append(pwr)
 				allLat += pwr * lat
 				allLon += pwr * lon
@@ -104,9 +136,9 @@ class Sniffer():
 		if sum(pwrs) == 0:
 			return None
 			
-		print "Center of mass using %d samples" % (len(pwrs))
-		print "Power used : ",
-		print pwrs
+		#print "Center of mass using %d samples" % (len(pwrs))
+		#print "Power used : ",
+		#print pwrs
 		return (allLat / sum(pwrs), allLon / sum(pwrs))
 	
 	def localize_user(self, user, pwr_thresh, beacon_thresh, beacon_rpt_int=5, sort_tuple=3):
@@ -118,12 +150,12 @@ class Sniffer():
 	
 	def send_position_to_station(self, coord, angle):
 		self.sender.send("[plane]%s\t%s\t%s\t%d" % (self.planeID, coord[0], coord[1], angle))
-		print "Cant send position but still wrote to log"
+		#print "Cant send position but still wrote to log"
 		self.log.writePlanePosition(self.planeID,coord, angle)
 
 	def send_localization_to_station(self,user, coord):
 		self.sender.send("[user]%s\t%s\t%s" % (user, coord[0], coord[1]))
-		print "Cant send localization but still wrote to log"
+		#print "Cant send localization but still wrote to log"
 		self.log.writeLocalization(user,coord)
 		
 	def cleanLogFile(self,log):
@@ -260,53 +292,56 @@ class Sniffer():
 			if not p.addr2 in self.clientsSignalPower:
 				self.clientsSignalPower[p.addr2] = []
 			self.clientsSignalPower[p.addr2].append((self.log.ts(), self.coord[0], self.coord[1], self.coord[2], sig_str, p.addr2))
-			center_of_mass = self.localize_user(p.addr2)
+			center_of_mass = self.localize_user(p.addr2, pwr_thresh=28, beacon_thresh=100, beacon_rpt_int=5, sort_tuple=3)
 			if not center_of_mass == None:
-				self.send_localization_to_station(user,center_of_mass)
+				self.send_localization_to_station(p.addr2,center_of_mass)
 				
 if __name__ == "__main__":
-	logHeader = "/media/cheseaux/PENDRIVE/all-files/flightwifi-2014-06-10-flight"
-	macFilter1 = {'c4:88:e5:24:3d:83' : (46.518550, 6.562460)}
-	macFilter2 = {'c4:88:e5:24:3d:83' : (46.518543,6.562807)}
-	flightMacFilters = {2:macFilter1, 4:macFilter1, 5:macFilter1, 6:macFilter2}
 	
-	min_average_error = 100000.0
-	min_error = 1000000.0
-	best_param = None
-	best_min_param = None
+	Sniffer().main();
 	
-	for j in [0]:
-		for p in [1000]:
-			pwr_thresh=j
-			beacon_thresh=p
-			print j
-			print "Parameters : pwr_thresh=%d, beacon_thresh=%d" % (pwr_thresh, beacon_thresh)
-			error = []
-			for i in [2,4,5,6]:
-				print "###Replaying %dth flight ###" % i
-				passError = Sniffer().computeFromLogs("%s%d.log" % (logHeader,i), mac_filter=flightMacFilters[i], \
-					pwr_thresh=pwr_thresh, beacon_thresh=beacon_thresh, beacon_rpt_int=5, sort_tuple=4, output_file="%d.html" % i)
-				error.append(passError)
-				print "Error : %f" % passError
-				if passError < min_error:
-					min_error = passError
-					best_min_param = (pwr_thresh,beacon_thresh)
-				print "############################"
+	#logHeader = "/media/cheseaux/PENDRIVE/all-files/flightwifi-2014-06-10-flight"
+	#macFilter1 = {'c4:88:e5:24:3d:83' : (46.518550, 6.562460)}
+	#macFilter2 = {'c4:88:e5:24:3d:83' : (46.518543,6.562807)}
+	#flightMacFilters = {2:macFilter1, 4:macFilter1, 5:macFilter1, 6:macFilter2}
+	
+	#min_average_error = 100000.0
+	#min_error = 1000000.0
+	#best_param = None
+	#best_min_param = None
+	
+	#for j in [0]:
+		#for p in [1000]:
+			#pwr_thresh=j
+			#beacon_thresh=p
+			#print j
+			#print "Parameters : pwr_thresh=%d, beacon_thresh=%d" % (pwr_thresh, beacon_thresh)
+			#error = []
+			#for i in [2,4,5,6]:
+				#print "###Replaying %dth flight ###" % i
+				#passError = Sniffer().computeFromLogs("%s%d.log" % (logHeader,i), mac_filter=flightMacFilters[i], \
+					#pwr_thresh=pwr_thresh, beacon_thresh=beacon_thresh, beacon_rpt_int=5, sort_tuple=4, output_file="%d.html" % i)
+				#error.append(passError)
+				#print "Error : %f" % passError
+				#if passError < min_error:
+					#min_error = passError
+					#best_min_param = (pwr_thresh,beacon_thresh)
+				#print "############################"
 			
-			average_error = sum(error)/len(error)
-			print "Average error : %d , min avg error : %d" % (average_error, min_average_error)
-			print average_error
-			if average_error < min_average_error:
-				min_average_error = average_error
-				best_param = (pwr_thresh,beacon_thresh)
+			#average_error = sum(error)/len(error)
+			#print "Average error : %d , min avg error : %d" % (average_error, min_average_error)
+			#print average_error
+			#if average_error < min_average_error:
+				#min_average_error = average_error
+				#best_param = (pwr_thresh,beacon_thresh)
 	
-	print "Minimum average error : %f%%" % (min_average_error)
-	(pwrt,beact) = best_param
-	print "With parameters : pwr_thresh=%f, beacon_thresh=%f" % (pwrt,beact)
-	print "Minimum error : %f%%" % (min_error)
-	(pwrt,beact) = best_min_param
-	print "With parameters : pwr_thresh=%f, beacon_thresh=%f" % (pwrt,beact)
-	#Sniffer().main();
+	#print "Minimum average error : %f%%" % (min_average_error)
+	#(pwrt,beact) = best_param
+	#print "With parameters : pwr_thresh=%f, beacon_thresh=%f" % (pwrt,beact)
+	#print "Minimum error : %f%%" % (min_error)
+	#(pwrt,beact) = best_min_param
+	#print "With parameters : pwr_thresh=%f, beacon_thresh=%f" % (pwrt,beact)
+	#
 
 
 	#Deprecated stuff...
