@@ -14,6 +14,7 @@
          	var centerlatlng = new google.maps.LatLng(46.518394, 6.568469);
          	var myOptions = {
          		zoom: 16,
+         		tilt: 0,
          		center: centerlatlng,
          		mapTypeId: google.maps.MapTypeId.SATELLITE
          	};
@@ -21,8 +22,16 @@
          	window.images = []
          	
          	for (var i = 0; i < 360; i++) { 
-         		window.images[i] = "../res/images/robot/plane"+i+".png"
+         		window.images[i] = {
+				url: "../res/images/robot/plane"+i+".png",
+				size: new google.maps.Size(72, 72),
+				origin: new google.maps.Point(0,0),
+				anchor: new google.maps.Point(32, 32)
+				};
          	}
+         	
+         	
+         	
          	window.planemarkers = {};
          	window.markers = {};
 
@@ -32,7 +41,10 @@
 		
 		
 		function setPlanePosition(plane, lat, lon, angle) {
-			var angle = (360 - parseInt(angle)) % 360;
+			var angle = (parseInt(angle)+270) % 360;
+			if (angle == 0) {
+				return;
+			}
 			console.log(angle)
 			var oldMarker = window.planemarkers[plane]
 			if (oldMarker !== undefined) {
@@ -44,12 +56,7 @@
 				fontSize: 12,
 				align: "center"
 			});
-			var image = {
-				url: images[angle],
-				size: new google.maps.Size(72, 72),
-				origin: new google.maps.Point(0,0),
-				anchor: new google.maps.Point(32, 32)
-			};
+			var image = window.images[angle]
 			
 			var marker = new google.maps.Marker({
 				icon: image
@@ -69,9 +76,18 @@
 		
 		function doReplay() {
 			line = window.lines[current_item];
+			if (line == undefined) {
+				console.log("line " + current_item + " corrupted !")
+			}
+			
 			items = line.split('\t');
 			type = items[0]
 			ts = items[1]
+			currentTime = new Date(parseInt(ts))
+			strTime = currentTime.toTimeString().split(' ')[0]
+			lastTS = window.lines[window.lines.length -2].split('\t')[1]
+			lastTime = new Date(parseInt(lastTS)).toTimeString().split(' ')[0]
+			$('#title').text("Replay flight (" + strTime + "/" + lastTime+ ")")
 			
 			if (type.indexOf('[COORD]')==0) {
 				lat = items[3]
@@ -86,11 +102,24 @@
 				lon = items[4]
 				setUserPosition(user, lat, lon)
 			}
+			if (type.indexOf('[BEACON]')==0) {
+				user = items[2].substring(1, items[2].length-1)
+				lat = items[3]
+				lon = items[4]
+				pwr = items[6]
+				displayBeacon(user, lat, lon, pwr)
+			}
 			
-			if (current_item < lines.length && play) {
+			if (current_item < lines.length -2 && play) {
 				current_item += 1;
+				if (window.lines[current_item] == undefined) {
+					console.log("line " + current_item + " corrupted !")
+				}
 				nextTS = window.lines[current_item].split('\t')[1]
-				setTimeout(doReplay,(nextTS-ts)/speed);
+				waitingTime = (nextTS-ts)/speed
+				
+				
+				setTimeout(doReplay, Math.min(waitingTime, 5000));
 			}
 		}
 		
@@ -103,7 +132,7 @@
 		}
 		
 		function onBack() {
-			if (speed > 1) {
+			if (speed > 1.0) {
 				speed -= 1.0;
 			}
 			$('#btnBack')
@@ -116,7 +145,7 @@
 		}
 		
 		function onForward() {
-			if (speed < 20) {
+			if (speed < 10) {
 				speed += 1.0;
 			}
 			$('#btnForward')
@@ -146,6 +175,39 @@
          	window.markers = {};
          	toDisplay = {};
 		}
+		
+		function displayBeacon(user, lat, lon, pwr) {
+			mac = document.getElementById("macaddresses").value.split(',');
+			if (toDisplay[user]) {
+				var mapLabel = new MapLabel({
+				text: pwr,
+				position: new google.maps.LatLng(lat, lon),
+				map: window.map,
+				fontSize: 18,
+				align: "center"
+				})
+				
+				var image = {
+					url: "../res/images/beacon.png",
+					size: new google.maps.Size(32, 32),
+					origin: new google.maps.Point(0,0),
+					anchor: new google.maps.Point(32, 16)
+				};
+			
+				var marker = new google.maps.Marker({
+					icon: image
+				});
+				
+				marker.bindTo("map", mapLabel);
+				marker.bindTo("position", mapLabel);
+				marker.setDraggable(false);
+				
+				setTimeout(function() {
+					mapLabel.setMap(null);
+				}, 3000)
+			
+			}
+		};
 	  
 		function setUserPosition(user, lat, lon) {
 			mac = document.getElementById("macaddresses").value.split(',');
@@ -197,7 +259,6 @@
 			}
 			for (var marker in window.markers) { 
          		if (!toDisplay[marker]) {
-					console.log("can't display " + marker)
 					window.markers[marker].setMap(null);
 				} else {
 					window.markers[marker].setMap(window.map);
@@ -219,7 +280,7 @@
 		<div class="panel panel-default" id="panel1">
 			<div class="panel-heading">
 				<h4 class="panel-title" >
-					<a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne" href="#collapseOne">
+					<a id="title" class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne" href="#collapseOne">
 						Replay flight
 					</a>
 				</h4>
@@ -231,7 +292,7 @@
 						<label>
 							<input type="checkbox" onclick='enableMACFilter(this);'> MAC filter
 						</label>
-						<input type="text" id="macaddresses" class = "Form-control" value="64:b3:10:86:06:3a" placeholder="Seperate multiple values with commas (,)">
+						<input type="text" id="macaddresses" class = "Form-control" value="c4:88:e5:24:3d:83" placeholder="Seperate multiple values with commas (,)">
 					</div>
 					<div class="col-xs-4">
 						<label>Controls</label>

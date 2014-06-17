@@ -2,41 +2,63 @@
 
 import os
 from scapy.all import *
-from threading import Thread
+from threading import *
 import math
 import time
 import sys
 from TCPSender import *
 from GPSUtil import *
 
-#Comment below import when running from the gumstix:
-#import csv
-#from GoogleMapDisplay import *
+#Will raise an exception if ran from the gumstix
+#Uggly Hack but works
+try:
+	import csv
+	from GoogleMapDisplay import *
+except ImportError:
+	pass
 
-FLIGHT_MODE = True
+
+FLIGHT_MODE = False
 
 if not FLIGHT_MODE:
 	app = None	
 
+#From : http://stackoverflow.com/questions/4625182/python-lock-method-annotation
+def synchronized(method):
+    """ Work with instance method only !!! """
+
+    def new_method(self, *arg, **kws):
+        with self.lock:
+            return method(self, *arg, **kws)
+
+
+    return new_method
 
 class Log():
+	
+	lock = threading.RLock()
 	
 	def __init__(self, path):
 		self.path = path
 		self.log = open(path, "a")
 		self.ts = lambda: int(round(time.time() * 1000))
 
+	@synchronized
 	def writeLocalization(self, user, coord):
 		self.log.write("[LOCAL]\t%d\t%r\t%f\t%f\t" % (self.ts(), user, coord[0], coord[1]))
 		self.log.write(os.linesep)
 		self.log.flush()
-		
+	
+	@synchronized
 	def writePlanePosition(self, planeID, coord, angle):
-		self.log.write("[COORD]\t%d\t%r\t%f\t%f\t%f\t%d" % \
+		
+		self.log.write("[COORD]\t%d\t%r\t%.8f\t%.8f\t%.8f\t%d" % \
 			(self.ts(),planeID, coord[0], coord[1], coord[2], angle))
+		print "Sending coord : %.8f %.8f %.8f" % (coord[0], coord[1], angle)
 		self.log.write(os.linesep)
 		self.log.flush()
 
+	@synchronized
 	def writeBeacon(self, client_addr, coord, signal_strength):
 		self.log.write("[BEACON]\t%d\t%r\t%r\t%r\t%r\t%d" % \
 			(self.ts(),client_addr, coord[0], coord[1], coord[2], signal_strength))
@@ -44,6 +66,7 @@ class Log():
 		self.log.flush()
 		
 class Sniffer():
+
 
 	def __init__(self):
 	
@@ -66,6 +89,7 @@ class Sniffer():
 		
 	#Read STDIN until EOF char received
 	#Receive plane's coordinate
+
 	def readSTDIN(self):
 		try:
 			buff = ''
@@ -74,9 +98,10 @@ class Sniffer():
 				if buff.endswith('\n'):
 					buff = buff[:-1].split('\n')[-1]
 					buff = buff.split(', ')
-					self.angle = GPSUtil.angleBetweenCoords(self.coord[0], self.coord[1], float(buff[0]), float(buff[1]))
+					self.angle = float(buff[5])
 					self.coord = tuple((float(buff[0]), float(buff[1]), float(buff[2])))
-					self.send_position_to_station(self.coord, self.angle)
+					t = Thread(target=self.send_position_to_station, args = (self.coord, self.angle))
+					t.start()
 					buff = ''
 		except KeyboardInterrupt:
 			sys.stdout.flush()
@@ -88,9 +113,9 @@ class Sniffer():
 			(lat,lon) = self.localize_user(target,30,100)
 			self.writeFileForPilot(lat,lon,self.search_radius)
 			print "Reducing search area to circle : %f,%f radius : %f" % (lat,lon,self.search_radius)
-			self.search_radius = self.search_radius * 0.75 #reduce radius for next iteration
+			self.search_radius = self.search_radius * 0.5 #reduce radius for next iteration
 			if (self.search_radius < 20.0):
-				break
+				sys.exit(0) #End of search !
 				
 			time.sleep(1*60*2)
 			
@@ -99,18 +124,17 @@ class Sniffer():
 		while True:
 			instructions = self.sender.receive()
 			if not instructions == None:
-				radius = 400 #meters
-				(event, neLat,neLng,swLat,swLng) = instructions
-				print "Received new coordinates of flight ! %r %r %r %r" % (neLat,neLng,swLat,swLng)
+				(event, lat,lon	,radius) = instructions
+				print "Received routing instructions ! %r %r %r" % (lat,lon,radius)
 				#compute the center:
-				center_x = (float(neLat) + float(swLat)) / 2.0
-				center_y = (float(neLng) + float(swLng)) / 2.0
-				self.writeFileForPilot(center_x,center_y,radius)
+				radius = float(radius)
+				radius = min(radius, 249)
+				self.writeFileForPilot(lat,lon,radius)
 				self.t = Thread(target=self.reduceSearchArea, args = (''))
 				self.t.start()
 				
-	def writeFileForPilot(self, center_x, center_y, radius, altitude=70):
-		command = "/smavnet/gapi_sendcoordinates %f %f %f %f" % (center_x, center_y, altitude, radius)
+	def writeFileForPilot(self, center_x, center_y, radius, altitude=50):
+		command = "/smavnet/gapi_sendcoordinates %f %f %f %f" % (float(center_x), float(center_y), altitude, float(radius))
 		os.system(command)
 
 	def compute_center_of_mass(self,samples, sort_tuple, map_pwr_func, pwr_thresh, beacon_thresh, beacon_rpt_int):
@@ -119,6 +143,11 @@ class Sniffer():
 		usr.sort(key=lambda tup: tup[sort_tuple], reverse=True)
 		usr = GPSUtil.remove_duplicate_GPS(usr, beacon_rpt_int)
 		
+		#print len(usr)
+		#usr = GPSUtil.remove_lonely_points(usr)
+		#print "After lonely : ",
+		#print len(usr)
+		
 		allLat = 0
 		allLon = 0	 	
 		
@@ -126,10 +155,9 @@ class Sniffer():
 		for (lat,lon,alt,pwr,mac) in usr[0:min(len(usr),beacon_thresh)]:
 			if pwr >= pwr_thresh and lat > 0.0 and lon > 0.0:
 				pwr = map_pwr_func(pwr)
-				
 				###DISABLED IN FLIGHT MODE !
 				if not FLIGHT_MODE:
-					self.gMapDisplay.addLabel(lat, lon, text="%f" % (pwr))
+					self.gMapDisplay.addLabel(lat, lon, text="%f %f" % (lat, pwr))
 				#############################
 				
 				pwrs.append(pwr)
@@ -144,22 +172,31 @@ class Sniffer():
 		#print pwrs
 		return (allLat / sum(pwrs), allLon / sum(pwrs))
 	
-	def localize_user(self, user, pwr_thresh, beacon_thresh, beacon_rpt_int=5, sort_tuple=3):
+	#Accuracy of c4:88:e5:24:3d:83 : 6.788956m.
+	#Accuracy of c4:88:e5:24:3d:83 : 17.038291m.
+	#Accuracy of c4:88:e5:24:3d:83 : 146.057375m.
+
+	def localize_user(self, user, pwr_thresh=20, beacon_thresh=15, beacon_rpt_int=5, sort_tuple=3):
 		samples = self.clientsSignalPower[user]
 		#pwr_func = lambda x : (x/100.0)
-		pwr_func = lambda x : x
+		pwr_func = lambda x : x * 2**math.log(x/10.0)# if x > 30 else x
+		#pwr_func = lambda x : x
 		return self.compute_center_of_mass(samples=samples, sort_tuple=sort_tuple, map_pwr_func=pwr_func, pwr_thresh=pwr_thresh, beacon_thresh=beacon_thresh, beacon_rpt_int=beacon_rpt_int)
 		
 	
+	def send_beacon_to_station(self, user, coord, pwr):
+		self.sender.send("[beacon]%s\t%s\t%s\t%f" % (user, coord[0], coord[1], pwr))
+		print "Sending beacon !"
+	
 	def send_position_to_station(self, coord, angle):
-		self.sender.send("[plane]%s\t%s\t%s\t%d" % (self.planeID, coord[0], coord[1], angle))
-		#print "Cant send position but still wrote to log"
 		self.log.writePlanePosition(self.planeID,coord, angle)
+		self.sender.send("[plane]%s\t%s\t%s\t%d" % (self.planeID, coord[0], coord[1], angle))
+		
 
 	def send_localization_to_station(self,user, coord):
-		self.sender.send("[user]%s\t%s\t%s" % (user, coord[0], coord[1]))
-		#print "Cant send localization but still wrote to log"
 		self.log.writeLocalization(user,coord)
+		self.sender.send("[user]%s\t%s\t%s" % (user, coord[0], coord[1]), retry=True)
+		
 		
 	def cleanLogFile(self,log):
 		clean = []
@@ -211,7 +248,7 @@ class Sniffer():
 				maxPower = max(pwr, maxPower)
 				minPower = min(pwr, minPower)
 					
-		print "Max power : %f, Min power :%f" % (maxPower,minPower)
+		#print "Max power : %f, Min power :%f" % (maxPower,minPower)
 	
 
 		
@@ -279,7 +316,6 @@ class Sniffer():
 			print "\tUsage live mode : ./PlaneSniffer <planeID> <interface> <logfile>"
 			print "\tUsage replay mode : ./PlaneSniffer <logfile>"
 		
-
 	def trackClients(self, p):
 		#We're only concerned by probe request packets
 		#Also, sometime, addr2 is NoneType (don't know why actually)
@@ -290,62 +326,41 @@ class Sniffer():
 		#Ensure that this is a client
 		if p.type == 0 and p.subtype in (0,2,4):
 			#Signal strength
+			#if not p.addr2 == 'c4:88:e5:24:3d:83':
+				#return
 			sig_str = 100-(256-ord(p.notdecoded[-4:-3]))
+			self.send_beacon_to_station(p.addr2, self.coord, sig_str)
+			t = Thread(target=self.send_beacon_to_station, args = (p.addr2,self.coord,sig_str))
+			t.start()
 			self.log.writeBeacon(p.addr2, self.coord, sig_str)
 			if not p.addr2 in self.clientsSignalPower:
 				self.clientsSignalPower[p.addr2] = []
 			self.clientsSignalPower[p.addr2].append((self.log.ts(), self.coord[0], self.coord[1], self.coord[2], sig_str, p.addr2))
-			center_of_mass = self.localize_user(p.addr2, pwr_thresh=28, beacon_thresh=100, beacon_rpt_int=5, sort_tuple=3)
+			center_of_mass = self.localize_user(p.addr2, pwr_thresh=26, beacon_thresh=26, beacon_rpt_int=5, sort_tuple=3)
 			if not center_of_mass == None:
-				self.send_localization_to_station(p.addr2,center_of_mass)
+				t = Thread(target=self.send_localization_to_station, args = (p.addr2,center_of_mass))
+				t.start()
 				
 if __name__ == "__main__":
-	
-	Sniffer().main();
-	
-	#logHeader = "/media/cheseaux/PENDRIVE/all-files/flightwifi-2014-06-10-flight"
-	#macFilter1 = {'c4:88:e5:24:3d:83' : (46.518550, 6.562460)}
-	#macFilter2 = {'c4:88:e5:24:3d:83' : (46.518543,6.562807)}
-	#flightMacFilters = {2:macFilter1, 4:macFilter1, 5:macFilter1, 6:macFilter2}
-	
-	#min_average_error = 100000.0
-	#min_error = 1000000.0
-	#best_param = None
-	#best_min_param = None
-	
-	#for j in [0]:
-		#for p in [1000]:
-			#pwr_thresh=j
-			#beacon_thresh=p
-			#print j
-			#print "Parameters : pwr_thresh=%d, beacon_thresh=%d" % (pwr_thresh, beacon_thresh)
-			#error = []
-			#for i in [2,4,5,6]:
-				#print "###Replaying %dth flight ###" % i
-				#passError = Sniffer().computeFromLogs("%s%d.log" % (logHeader,i), mac_filter=flightMacFilters[i], \
-					#pwr_thresh=pwr_thresh, beacon_thresh=beacon_thresh, beacon_rpt_int=5, sort_tuple=4, output_file="%d.html" % i)
-				#error.append(passError)
-				#print "Error : %f" % passError
-				#if passError < min_error:
-					#min_error = passError
-					#best_min_param = (pwr_thresh,beacon_thresh)
-				#print "############################"
-			
-			#average_error = sum(error)/len(error)
-			#print "Average error : %d , min avg error : %d" % (average_error, min_average_error)
-			#print average_error
-			#if average_error < min_average_error:
-				#min_average_error = average_error
-				#best_param = (pwr_thresh,beacon_thresh)
-	
-	#print "Minimum average error : %f%%" % (min_average_error)
-	#(pwrt,beact) = best_param
-	#print "With parameters : pwr_thresh=%f, beacon_thresh=%f" % (pwrt,beact)
-	#print "Minimum error : %f%%" % (min_error)
-	#(pwrt,beact) = best_min_param
-	#print "With parameters : pwr_thresh=%f, beacon_thresh=%f" % (pwrt,beact)
-	#
 
+	FLIGHT_MODE = True
+	if FLIGHT_MODE :
+		Sniffer().main();
+	else:
+		logHeader = "../logs/flightwifi-2014-06-13-flight"
+		macFilter1 = {'c4:88:e5:24:3d:83' : (46.518440, 6.562774)}
+		macFilter2 = {'64:b3:10:86:06:3a' : (46.518440,6.562774)}
+		flightMacFilter = {4 : macFilter1, 5 : macFilter2}
+		
+		pwr_thresh=10
+		beacon_thresh=1000
+		for i in [1,2,3,4,5]:
+			print "###Replaying %dth flight ###" % i
+			passError = Sniffer().computeFromLogs("%s%d.log" % (logHeader,i), mac_filter=macFilter1, \
+				pwr_thresh=pwr_thresh, beacon_thresh=beacon_thresh, beacon_rpt_int=5, sort_tuple=4, output_file="13june-%d.html" % i)
+			print "Error : %f for pos %s" % (passError, macFilter1)
+			print "############################"
+		
 
 	#Deprecated stuff...
 	

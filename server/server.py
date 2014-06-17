@@ -43,7 +43,7 @@ def wsSend(message):
 	if None != ws and ws.ws_connection.stream.socket:
 		ws.write_message(message)
 	else:
-		print "Web socket disconnected : ",
+		print "Web socket disconnected !"
 
 def launch_server():
 	http_server = tornado.httpserver.HTTPServer(application)

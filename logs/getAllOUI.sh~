@@ -1,0 +1,6 @@
+#!/bin/bash
+
+while read p; do
+  echo $p
+  /bin/bash getOUI.sh $p
+done < $1

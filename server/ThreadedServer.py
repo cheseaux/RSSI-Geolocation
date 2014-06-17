@@ -33,10 +33,10 @@ class ClientThread( Thread ):
 	@staticmethod
 	def notifyRouting(message):
 		global client_socket
-		print "PASSED FROM WSOCKET : " + message
+		#print "PASSED FROM WSOCKET : " + message
 		client_socket.send(message)
 		
-	def __init__( self, server_sock, client_sock, onLocalized, onPositionUpdated):		
+	def __init__( self, server_sock, client_sock, onLocalized, onPositionUpdated, onBeacon):		
 		Thread.__init__( self )
 		self.client = client_sock
 		global client_socket
@@ -44,6 +44,7 @@ class ClientThread( Thread ):
 		self.userPosition = {}
 		self.onLocalized = onLocalized
 		self.onPositionUpdated = onPositionUpdated
+		self.onBeacon = onBeacon
 		self.interrupt = False
 		self.last_keepalive = datetime.datetime.now()
 		self.check_client_connection()
@@ -53,9 +54,9 @@ class ClientThread( Thread ):
 		
 	def check_client_connection(self):
 		#Check if client is still up (if he has sent a keepalive msg
-		#in the last 5 seconds)
+		#in the last 6 seconds)
 		diff = (datetime.datetime.now() - self.last_keepalive).seconds
-		if diff > 5:
+		if diff > 6:
 			print "Assuming that the client is disconnected... %d" % diff
 			wsSend("disconnected")
 		else:
@@ -75,6 +76,14 @@ class ClientThread( Thread ):
 						lat = float(lat)
 						lon = float(lon)
 						self.onPositionUpdated(planeID,lat,lon, angle)
+					elif line.startswith("[beacon]"):
+						line = line[8:]
+						(user,lat,lon, pwr) = line.split('\t');
+						lat = float(lat)
+						lon = float(lon)
+						pwr = float(pwr)
+						#print "Threaded server received beacon !"
+						self.onBeacon(user,lat,lon,pwr)
 					elif line.startswith("[user]"):
 						line = line[6:]
 						(user,lat,lon) = line.split('\t');
@@ -89,7 +98,7 @@ class ClientThread( Thread ):
 					
 						self.userPosition[user] = (lat, lon)
 						self.onLocalized(user,lat,lon)
-						print "User %s should be located at %f, %f" % (user,lat,lon)
+						print "User %s localized at %.8f, %.8f" % (user,lat,lon)
 					elif line.startswith("KEEPALIVE"):
 						self.last_keepalive = datetime.datetime.now()
 					elif line.startswith("[routing]"):
@@ -120,11 +129,15 @@ class Server():
 		t.start()
 		
 	def addGuess(self,user,lat,lon):
-		wsSend("[u]%r\t%f\t%f" % (user,lat,lon))
+		wsSend("[u]%r\t%.8f\t%.8f" % (user,lat,lon))
+		
+	def addBeacon(self,user,lat,lon,pwr):
+		print "Beacon received! : %s" % user
+		wsSend("[b]%r\t%.8f\t%.8f\t%f" % (user,lat,lon, pwr))
 		
 	def addPlanePosition(self,planeID,lat,lon, angle):
-		print "Position received"
-		wsSend("[p]%r\t%f\t%f\t%d" % (planeID,lat,lon, int(angle)))
+		print "Position received : %.8f %.8f %.8f" % (lat,lon,int(angle))
+		wsSend("[p]%r\t%.8f\t%.8f\t%d" % (planeID,lat,lon, int(angle)))
 		
 		
 	def run( self ):
@@ -133,7 +146,8 @@ class Server():
 		while not connected:
 			try:
 				self.sock = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
-				self.sock.bind( ( '127.0.0.1', 8080 ) )
+				#self.sock.bind( ( '127.0.0.1', 8080 ) )
+				self.sock.bind( ( '192.168.100.92', 8080 ) )
 				self.sock.listen( MAX_PLANE_NUMBER )
 				print "Listening for plane communications"
 				connected = True
@@ -146,7 +160,7 @@ class Server():
 		while not interrupted:
 			try:
 				client = self.sock.accept()[0]
-				new_thread = ClientThread(self.sock, client, self.addGuess, self.addPlanePosition)
+				new_thread = ClientThread(self.sock, client, self.addGuess, self.addPlanePosition, self.addBeacon)
 				print 'Incoming plane connection'
 				self.thread_list.append( new_thread )
 				new_thread.start()

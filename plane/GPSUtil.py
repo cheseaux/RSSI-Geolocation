@@ -11,6 +11,9 @@ class GPSPosition():
 		lon = (self.lon + pos.lon) * weight
 		lat = (self.lat + pos.lat) * weight
 		return GPSPosition(lat,lon)
+		
+	def equals(self, other):
+		return self.lat == other.lat and self.lon == other.lon
 
 class GPSUtil():
 	
@@ -32,18 +35,33 @@ class GPSUtil():
 		return float(d);
 	
 	@staticmethod
-	def remove_duplicate_GPS(log, interval=10):
+	def remove_lonely_points(log, min_dist=50):
+		return log
+		result = []
+		for (lat0, lon0, alt0, pwr0, mac0) in log:
+			gps0 = GPSPosition(lat0,lon0)
+			avg_dist = 0
+			alone = True
+			for (lat1, lon1, alt1, pwr1, mac1) in log:
+				gps1 = GPSPosition(lat1,lon1)
+				if (gps0.equals(gps1)):
+					continue
+				
+				avg_dist += GPSUtil.haversine_meter(gps0,gps1)
+			print "Avg dist of %f : %f" % (pwr0,avg_dist)
+		return result
+		
+	@staticmethod
+	def remove_duplicate_GPS(log, interval=5):
 		###Pick the most powerful beacon frame in small time interval
 		
 		clean = [] 
 		lastTS = {}
 		lastPWR = {}
 		for (ts,lat, lon, alt, pwr, mac) in log:
-			clean.append((lat, lon, alt, pwr, mac))
+			clean.append((lat,lon,alt,pwr,mac))
 			continue
-			
-			
-			#####
+			#### BELOW IS NOT EXECUTED #####
 			if mac in lastTS:
 				diff = abs(lastTS[mac] - ts)
 				if diff < interval * 1000.0: #seconds

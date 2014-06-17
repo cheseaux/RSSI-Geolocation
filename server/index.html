@@ -27,20 +27,21 @@
 		
 		function enableDrawingManager(planeID, marker) {
 			var drawingManager = new google.maps.drawing.DrawingManager({
-				drawingMode: google.maps.drawing.OverlayType.RECTANGLE,
+				drawingMode: google.maps.drawing.OverlayType.CIRCLE,
 				drawingControl: false,
 				drawingControlOptions: {
 					position: google.maps.ControlPosition.TOP_CENTER,
 					drawingModes: [
-						google.maps.drawing.OverlayType.RECTANGLE
+						google.maps.drawing.OverlayType.CIRCLE
 					]
 				},
 				rectangleOptions: {
 					fillColor: '#ff0000',
 					fillOpacity: 0.2,
 					strokeWeight: 5,
+					radius: 249,
 					clickable: false,
-					editable: true,
+					editable: false,
 					zIndex: 1
 				}
 			});
@@ -49,14 +50,13 @@
 				var message = "Click on the map to draw the search area."
 				var draw_notif = $("<div />", { 'class': 'infotopbar', text: message }).hide().prependTo("body").slideDown('slow');
 				drawingManager.setMap(map);	
+				
+				
+				
 				google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
-					if (event.type == google.maps.drawing.OverlayType.RECTANGLE) {
-						var NEbound = event.overlay.bounds.getNorthEast()
-						var SWbound = event.overlay.bounds.getSouthWest()
-						console.log(NEbound.lat())
-						console.log(marker.getMap())
-						ws.send("[ROUTING]\t" + NEbound.lat() +"\t"+ NEbound.lng() 
-							+ "\t" + SWbound.lat() + "\t" + SWbound.lng())
+					if (event.type == google.maps.drawing.OverlayType.CIRCLE) {
+						ws.send("[ROUTING]\t" + event.overlay.getCenter().lat() +"\t"+ event.overlay.getCenter().lng() 
+							+ "\t" + event.overlay.radius)
 						event.overlay.setMap(null);
 						drawingManager.setMap(null);	
 						draw_notif.slideUp(function() { $(this).remove(); });
@@ -70,15 +70,19 @@
 		var notif_basestation = $("<div />", { 'class': 'alerttopbar', text: "Connection to base station interrupted.\nTry to refresh this page." });
 		var notif_connected = $("<div />", { 'class': 'infotopbar', text: "Connected to base station" });
         
+        //var targetUser = "'64:b3:10:86:06:3a'" //Karol
+        var targetUser = "'c4:88:e5:24:3d:83'" //stefano
+        //var targetUser = "'68:a8:6d:6e:a9:d8'" //me
+        
 		ws.onmessage = function(evt) {
-			console.log(evt.data)
 			if (evt.data.indexOf('[p]') == 0) {
 				var input = evt.data.substring(3);
 				var opt = input.split('\t');
 				var plane = opt[0];
 				var lat = opt[1];
 				var lon = opt[2];
-				var angle = (360 - parseInt(opt[3])) % 360;
+				var angle = (parseInt(opt[3])+270)%360;
+				
 				var oldMarker = markers[plane]
 				if (oldMarker !== undefined) {
 					markers[plane].setMap(null)
@@ -104,18 +108,55 @@
 				marker.setDraggable(false);
 				
 				enableDrawingManager(plane, marker) 
-  
+			} else if (evt.data.indexOf('[b]') == 0) {
+				
+				var input = evt.data.substring(3);
+				var opt = input.split('\t');
+				var user = opt[0];
+				var lat = opt[1];
+				var lon = opt[2];
+				var pwr = (opt[3] | 0);
+				
+				if (user == targetUser) {
+					console.log("webgui received beacon ! lat " + lat + " lon " + lon + " pwr = " + pwr)
+					var mapLabel = new MapLabel({
+						text: pwr,
+						position: new google.maps.LatLng(lat, lon),
+						map: map,
+						fontSize: 18,
+						align: "center"
+					})
+					
+					var image = {
+						url: "../res/images/beacon.png",
+						size: new google.maps.Size(32, 32),
+						origin: new google.maps.Point(0,0),
+						anchor: new google.maps.Point(32, 16)
+					};
+				
+					var marker = new google.maps.Marker({
+						icon: image
+					});
+					
+					marker.bindTo("map", mapLabel);
+					marker.bindTo("position", mapLabel);
+					marker.setDraggable(false);
+					
+					setTimeout(function() {
+						mapLabel.setMap(null);
+					}, 3000)
+				
+				}
+		    
 				
 			} else if (evt.data.indexOf('[u]') == 0) {
 				var input = evt.data.substring(3);
 				var opt = input.split('\t');
 				var user = opt[0];
-				console.log("AöLKJSFöLSAFJDSJ" + user)
-				if (user == "'c4:88:e5:24:3d:83'") {
+				if (user == targetUser) {
 				
 					var lat = opt[1];
 					var lon = opt[2];
-					console.log(input)
 					var oldMarker = markers[user]
 					if (oldMarker !== undefined) {
 						markers[user].setMap(null)
@@ -138,7 +179,6 @@
 				}
 				
 			} else if (evt.data === 'disconnected') {
-				console.log("done")
 				var message = "Connection to plane interrupted."
 				$("<div />", { 'class': 'alerttopbar', text: message }).hide().prependTo("body").slideDown('slow').delay(10000).slideUp(function() { $(this).remove(); });
 					
@@ -147,13 +187,12 @@
 				}
 				
 			} else {
-					console.log(evt.data)
+				console.log("UNKOWN MESSAGE")
 			}
 			
 		}
 
 		ws.onclose = function(evt) { 
-			console.log("done")
 			var message = "Connection to base station interrupted.\nTry to refresh this page."
 			notif_basestation.hide().prependTo("body").slideDown('slow');
 			notif_connected.slideUp(function() { $(this).remove(); });

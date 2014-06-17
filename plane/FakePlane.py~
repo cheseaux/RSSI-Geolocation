@@ -28,7 +28,7 @@ class FakePlane():
             self.r += 0.0001
             if self.angle >= 2 * pi:
                 self.angle = 0.0
-            print "%.8f, %.8f, %.8f, %.8f, %s, %f" % (self.x, self.y, 42, 350, "foo", 189)
+            print "%.8f, %.8f, %.8f, %.8f" % (self.x, self.y, 42, 350)
             sys.stdout.flush()
             time.sleep(1)
 

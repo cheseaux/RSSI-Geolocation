@@ -7,7 +7,7 @@ import threading
 
 class TCPSender(Thread):
 
-	def __init__(self, ip='192.168.100.90', port=8080):
+	def __init__(self, ip='192.168.100.92', port=8080):
 		Thread.__init__(self)
 		self.message_buffer = []
 		self.ip = ip
@@ -25,7 +25,7 @@ class TCPSender(Thread):
 		while not self.connected:
 			try:
 				self.reconnecting = True
-				self.ip = "127.0.0.1"
+				#self.ip = "127.0.0.1"
 				self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 				self.s.connect((self.ip, self.port))
 				self.connected = True
@@ -48,7 +48,6 @@ class TCPSender(Thread):
 		
 	def send_keepalive(self):
 		self.send("KEEPALIVE")
-		print "Sending KEEPALIVE"
 		threading.Timer(3, self.send_keepalive).start()	
 		
 	def receive(self):
@@ -59,19 +58,20 @@ class TCPSender(Thread):
 		if data: 
 			instructions = data.split("\n")
 			if data.lower().startswith("[routing]"):
-				(header, neLat,neLng,swLat,swLng) = data.split("\t")
-				return (header, neLat,neLng,swLat,swLng)
+				(header, lat,lon,radius) = data.split("\t")
+				return (header, lat, lon, radius)
 		return None
 		
-	def send(self, message):
+	def send(self, message, retry=False):
 		try:
-			if not self.connected:
+			if not self.connected and retry:
 				self.message_buffer.append(message)
-				print "Server not connected yet. Buffering message [total : %d]" % len(self.message_buffer)
+				print "Server not connected yet. Buffering %s [total : %d]" % (message, len(self.message_buffer))
 			else:
 				self.s.send(message + "\n")
 		except socket.error, err:
-			self.message_buffer.append(message)
+			if retry:
+				self.message_buffer.append(message)
 			print "Server not connected. Buffering message [total : %d]" % len(self.message_buffer)
 			if not self.reconnecting:
 				print "Process reconnection..."
