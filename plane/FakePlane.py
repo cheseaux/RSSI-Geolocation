@@ -1,26 +1,34 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+__author__ = "Jonathan Cheseaux"
+__copyright__ = "Copyright 2014"
+__credits__ = ["Jonathan Cheseaux", "Stefano Rosati", "Karol Kruzelecki"]
+__license__ = "MIT"
+__email__ = "cheseauxjonathan@gmail.com"
+
 import os
 import time
 import sys
 from threading import Thread
 from math import cos, pi, sin
 
-
 class FakePlane():
-    def __init__(self, send_position=False):
+	"""
+	This class simulate a plane for debuggin purpose.
+	It simply follows a circle whose radius increase over time
+	(Spiral path)
+	"""
+	
+    def __init__(self):
+		"""Build a new simulated plane"""
         self.angle = 0.0
         self.r = 0.002
         self.center = (46.51839432, 6.56846932)
-
-        if send_position:
-            Thread(target=self.nextCoordinateCircle, args=()).start()
-
-    def get_coordinate(self):
-        return self.x, self.y
+        Thread(target=self.nextCoordinateCircle, args=()).start()
 
     def nextCoordinateCircle(self):
+		"""Compute the next coordinates of the path followed"""
         while(True):
             self.x = self.center[0] + self.r * cos(self.angle)
             self.y = self.center[1] + self.r * sin(self.angle)
@@ -32,11 +40,7 @@ class FakePlane():
             sys.stdout.flush()
             time.sleep(1)
 
-    def getCoord(self):
-        return (self.x, self.y)
-
-
 if __name__ == "__main__":
-    plane = FakePlane(True)
+    plane = FakePlane()
 
 

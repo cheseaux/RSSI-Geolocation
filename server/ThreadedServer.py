@@ -11,7 +11,6 @@ import time
 import datetime
 from server import *
 
-
 application = tornado.web.Application([
     (r'/ws', WSHandler),
 ])
@@ -29,9 +28,11 @@ def launch_server():
 client_socket = None	
 
 class ClientThread( Thread ):
-
+	"""Thread responsible for communicating with a plane """
+	
 	@staticmethod
 	def notifyRouting(message):
+		"""Relay a routing message from the websocket to the plane"""
 		global client_socket
 		#print "PASSED FROM WSOCKET : " + message
 		client_socket.send(message)
@@ -53,6 +54,10 @@ class ClientThread( Thread ):
 		self.interrupt = True
 		
 	def check_client_connection(self):
+		"""If no KEEPALIVE message are received from the last 7 seconds
+		we suppose that the connection between the plane and the server
+		is lost"""
+		
 		#Check if client is still up (if he has sent a keepalive msg
 		#in the last 6 seconds)
 		diff = (datetime.datetime.now() - self.last_keepalive).seconds
@@ -63,6 +68,9 @@ class ClientThread( Thread ):
 			threading.Timer(1, self.check_client_connection).start()
 
 	def run( self ):
+		"""This method reads the message sent by the plane
+		and triggers the corresponding action"""
+		
 		strBuffer = ""
 		while True:
 			try:
@@ -70,12 +78,14 @@ class ClientThread( Thread ):
 				strBuffer = ""
 				for line in strLine:
 					line = line.lower()
+					#Plane position received
 					if line.startswith("[plane]"):
 						line = line[7:]
 						(planeID,lat,lon, angle) = line.split('\t');
 						lat = float(lat)
 						lon = float(lon)
 						self.onPositionUpdated(planeID,lat,lon, angle)
+					#Beacon received (Probe Request)
 					elif line.startswith("[beacon]"):
 						line = line[8:]
 						(user,lat,lon, pwr) = line.split('\t');
@@ -84,6 +94,7 @@ class ClientThread( Thread ):
 						pwr = float(pwr)
 						#print "Threaded server received beacon !"
 						self.onBeacon(user,lat,lon,pwr)
+					#Plane has localized a user
 					elif line.startswith("[user]"):
 						line = line[6:]
 						(user,lat,lon) = line.split('\t');
@@ -120,7 +131,11 @@ class ClientThread( Thread ):
 		return result
 
 class Server():
-
+	""" This is the server part of the TCP connection.
+	It is responsible for listening to new incoming connections
+	and communicate with the websocket to update the live GUI
+	"""
+	
 	def __init__( self ):
 		os.system("fuser -k -n tcp " + str(PORT))
 		self.sock = None

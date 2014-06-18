@@ -1,3 +1,12 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+__author__ = "Jonathan Cheseaux"
+__copyright__ = "Copyright 2014"
+__credits__ = ["Jonathan Cheseaux", "Stefano Rosati", "Karol Kruzelecki"]
+__license__ = "MIT"
+__email__ = "cheseauxjonathan@gmail.com"
+
 import tornado.httpserver
 import tornado.websocket
 import tornado.ioloop
@@ -7,14 +16,20 @@ import threading
  
 ws = None
 
-onMessage = None
+onMessage = None #Method called when a message is received from the websocket
 
 class WSHandler(tornado.websocket.WebSocketHandler):
+	"""This class uses the Tornado library which allows to deal
+	with WebSockets. This permit to communicate with a JavaScript/JQuery
+	script in a html page.
+	It is used by ThreadedServer.py to interact with the live interface
+	"""
 	
 	@staticmethod
 	def subscribe(func):
+		""" Defines the method called when a message
+		is received from the websocket"""
 		global onMessage
-		print "subscribed"
 		onMessage = func
 	
 	def open(self):
@@ -40,6 +55,7 @@ application = tornado.web.Application([
 ])
 
 def wsSend(message):
+	"""Sends a message to the websocket end (live interface)"""
 	if None != ws and ws.ws_connection.stream.socket:
 		ws.write_message(message)
 	else:

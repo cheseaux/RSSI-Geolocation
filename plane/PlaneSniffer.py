@@ -1,4 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+__author__ = "Jonathan Cheseaux"
+__copyright__ = "Copyright 2014"
+__credits__ = ["Jonathan Cheseaux", "Stefano Rosati", "Karol Kruzelecki"]
+__license__ = "MIT"
+__email__ = "cheseauxjonathan@gmail.com"
+
 
 import os
 from scapy.all import *
@@ -25,7 +33,7 @@ if not FLIGHT_MODE:
 
 #From : http://stackoverflow.com/questions/4625182/python-lock-method-annotation
 def synchronized(method):
-    """ Work with instance method only !!! """
+    """ Implement Java Synchronization for python methods """
 
     def new_method(self, *arg, **kws):
         with self.lock:
@@ -35,6 +43,12 @@ def synchronized(method):
     return new_method
 
 class Log():
+	"""
+	Utility that allows the plane to save events in a log file.
+	The events are (beacon received, position updated, localization done)
+	
+	The methods are self-explanatory
+	"""
 	
 	lock = threading.RLock()
 	
@@ -66,7 +80,18 @@ class Log():
 		self.log.flush()
 		
 class Sniffer():
-
+	"""This class contains the core algorithms reponsible for geolocalizing
+	people on the ground, using the beacon frames received by their
+	smartphone and sniffed by a radio interface.
+	
+	GPS position (lat, lon, alt, heading) should be passed through stdin.
+	It also provide a communication channel (TCP) with the base station.
+	
+	If you want to use this script on the plane (gumstix) you should set
+	FLIGHT_MODE to TRUE.
+	If you want to compute the localization from the log file, you should set it
+	to False.
+	"""
 
 	def __init__(self):
 	
@@ -87,10 +112,12 @@ class Sniffer():
 		#Logging system
 		self.logfile = ""
 		
-	#Read STDIN until EOF char received
-	#Receive plane's coordinate
-
+	
 	def readSTDIN(self):
+		"""
+		Read STDIN until EOF char received
+		Receive plane's coordinate from the GPS
+		"""
 		try:
 			buff = ''
 			while True:
@@ -108,6 +135,11 @@ class Sniffer():
 			pass
 			
 	def reduceSearchArea(self, target='c4:88:e5:24:3d:83'):
+		"""
+		Route the plane on a smaller circle each 2 minutes 
+		And localize the target user. The latest localization
+		will be the new center of the next circle.
+		"""
 		while True:
 			
 			(lat,lon) = self.localize_user(target,30,100)
@@ -121,6 +153,10 @@ class Sniffer():
 			
 			
 	def readRoutingInstructions(self):
+		"""
+		Wait for routing instruction send by the base station on the
+		TCP connection.
+		"""
 		while True:
 			instructions = self.sender.receive()
 			if not instructions == None:
@@ -134,19 +170,29 @@ class Sniffer():
 				self.t.start()
 				
 	def writeFileForPilot(self, center_x, center_y, radius, altitude=50):
+		"""This is the command that allows to pass a new waypoint to the
+		plane's autopilot"""
 		command = "/smavnet/gapi_sendcoordinates %f %f %f %f" % (float(center_x), float(center_y), altitude, float(radius))
 		os.system(command)
 
 	def compute_center_of_mass(self,samples, sort_tuple, map_pwr_func, pwr_thresh, beacon_thresh, beacon_rpt_int):
-		usr = list(set(samples))
+		"""Compute the geolocalization of every user that the plane is
+		aware of
 		
+		Keyword arguments:
+		samples 	-- the list of beacon frames received
+				       following the format : (
+		sort_tuple 	-- number of the tuple by which the samples should
+					  be sorted
+		map_pwr_func -- mapping function of the power
+		pwr_thresh -- power threshold (min power)
+		beacon_thresh -- number of beacon frames considered
+		beacon_rpt_int -- unused
+		"""
+		
+		usr = list(set(samples))
 		usr.sort(key=lambda tup: tup[sort_tuple], reverse=True)
 		usr = GPSUtil.remove_duplicate_GPS(usr, beacon_rpt_int)
-		
-		#print len(usr)
-		#usr = GPSUtil.remove_lonely_points(usr)
-		#print "After lonely : ",
-		#print len(usr)
 		
 		allLat = 0
 		allLon = 0	 	
@@ -155,6 +201,7 @@ class Sniffer():
 		for (lat,lon,alt,pwr,mac) in usr[0:min(len(usr),beacon_thresh)]:
 			if pwr >= pwr_thresh and lat > 0.0 and lon > 0.0:
 				pwr = map_pwr_func(pwr)
+				
 				###DISABLED IN FLIGHT MODE !
 				if not FLIGHT_MODE:
 					self.gMapDisplay.addLabel(lat, lon, text="%f %f" % (lat, pwr))
@@ -166,24 +213,15 @@ class Sniffer():
 				
 		if sum(pwrs) == 0:
 			return None
-			
-		#print "Center of mass using %d samples" % (len(pwrs))
-		#print "Power used : ",
-		#print pwrs
+
 		return (allLat / sum(pwrs), allLon / sum(pwrs))
-	
-	#Accuracy of c4:88:e5:24:3d:83 : 6.788956m.
-	#Accuracy of c4:88:e5:24:3d:83 : 17.038291m.
-	#Accuracy of c4:88:e5:24:3d:83 : 146.057375m.
 
 	def localize_user(self, user, pwr_thresh=20, beacon_thresh=15, beacon_rpt_int=5, sort_tuple=3):
+		"""Compute the localization of a specific user """
 		samples = self.clientsSignalPower[user]
-		#pwr_func = lambda x : (x/100.0)
 		pwr_func = lambda x : x * 2**math.log(x/10.0)# if x > 30 else x
-		#pwr_func = lambda x : x
 		return self.compute_center_of_mass(samples=samples, sort_tuple=sort_tuple, map_pwr_func=pwr_func, pwr_thresh=pwr_thresh, beacon_thresh=beacon_thresh, beacon_rpt_int=beacon_rpt_int)
 		
-	
 	def send_beacon_to_station(self, user, coord, pwr):
 		self.sender.send("[beacon]%s\t%s\t%s\t%f" % (user, coord[0], coord[1], pwr))
 		print "Sending beacon !"
@@ -191,14 +229,16 @@ class Sniffer():
 	def send_position_to_station(self, coord, angle):
 		self.log.writePlanePosition(self.planeID,coord, angle)
 		self.sender.send("[plane]%s\t%s\t%s\t%d" % (self.planeID, coord[0], coord[1], angle))
-		
 
 	def send_localization_to_station(self,user, coord):
 		self.log.writeLocalization(user,coord)
 		self.sender.send("[user]%s\t%s\t%s" % (user, coord[0], coord[1]), retry=True)
 		
-		
 	def cleanLogFile(self,log):
+		""" It happens that log files generated by the planes
+		are somehow corrupted (null bytes, empty lines etc...)
+		This method tries to correct the format of this log file
+		"""
 		clean = []
 		with open(log) as tsv:
 			for entry in csv.reader(tsv, dialect="excel-tab"):
@@ -222,6 +262,7 @@ class Sniffer():
 		return clean
 		
 	def feedData(self, log, mac_filter):
+		"""Load the data from the logs"""
 		minPower = 100
 		maxPower = 0
 		
@@ -247,12 +288,9 @@ class Sniffer():
 							
 				maxPower = max(pwr, maxPower)
 				minPower = min(pwr, minPower)
-					
-		#print "Max power : %f, Min power :%f" % (maxPower,minPower)
-	
-
 		
 	def computeFromLogs(self, log, mac_filter, pwr_thresh=28, beacon_thresh=5, beacon_rpt_int=5, sort_tuple=4, output_file="flight.html"):
+		"""Compute the geolocalization from the log files"""
 		global app
 		self.feedData(log,mac_filter)
 		
@@ -317,6 +355,8 @@ class Sniffer():
 			print "\tUsage replay mode : ./PlaneSniffer <logfile>"
 		
 	def trackClients(self, p):
+		"""Listen for probe requests/response in the network"""
+		
 		#We're only concerned by probe request packets
 		#Also, sometime, addr2 is NoneType (don't know why actually)
 		#p.type = 0 -> management frame

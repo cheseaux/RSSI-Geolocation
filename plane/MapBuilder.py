@@ -1,10 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+__author__ = "Jonathan Cheseaux"
+__copyright__ = "Copyright 2014"
+__credits__ = ["Jonathan Cheseaux", "Stefano Rosati", "Karol Kruzelecki"]
+__license__ = "MIT"
+__email__ = "cheseauxjonathan@gmail.com"
+
 import math
 
-
 class Drawable():
+	"""
+	Group the properties of an object that can be displayed on
+	a Google Map
+	"""
+	
 	def __init__(self, lat, lon, \
 				 fillColor="#00FF00", \
 				 fillOpacity=1.0, \
@@ -22,6 +32,9 @@ class Drawable():
 		self.strokeWeight = strokeWeight
 
 class MapLabel():
+	"""
+	This class represent a label that can be drawn on the Google Map
+	"""
 	
 	def __init__(self, lat, lon, text,
 					fontFamily='sans-serif',
@@ -42,6 +55,9 @@ class MapLabel():
 		self.marker = marker
 
 class Circle(Drawable):
+	"""
+	This class represent a circle that can be drawn on the Google Map
+	"""
 	def __init__(self, lat, lon,
 				 fillColor="#00FF00", \
 				 fillOpacity=1.0, \
@@ -54,9 +70,27 @@ class Circle(Drawable):
 
 
 class MapBuilder:
-	RESOLUTION = 180
+	"""
+	This class draw a Google Map using the Google Maps JavaScript API
+	https://developers.google.com/maps/documentation/javascript/
+	
+	It is a slightly modified version of pygmaps :
+	https://code.google.com/p/pygmaps/
+	GPL v3 License
+	"""
+	
+	RESOLUTION = 180 #Total number of segment to draw the circle (which 
+					 #is in fact a polygon)
 
 	def __init__(self, centerLat, centerLng, zoom, mapType='SATELLITE'):
+		""" Initialize a MapBuilder object
+
+		Keyword arguments:
+		centerLat -- center of the map (latitude)
+		centerLng -- center of the map (longitude)
+		zoom 	  -- zoom level of the initial view
+		mapType   -- type of the map (ROAD or SATELLITE)
+		"""
 		self.center = (float(centerLat), float(centerLng))
 		self.zoom = int(zoom)
 		self.points = []
@@ -66,12 +100,16 @@ class MapBuilder:
 		self.coloricon = 'http://chart.apis.google.com/chart?cht=mm&chs=12x16&chco=FFFFFF,XXXXXX,000000&ext=.png'
 
 	def clear(self):
+		""" Erase every drawable objects from memory """
 		self.points = []
 		self.circles = []
 		self.texts = []
 
-	#create the html file which inlcude one google map and all points and paths
 	def draw(self, htmlfile):
+		"""
+		Create the html file which inlcude one google map and 
+		all points and paths.
+		"""
 		f = open(htmlfile, 'w')
 		f.write('<html>\n')
 		f.write('<head>\n')
@@ -95,14 +133,17 @@ class MapBuilder:
 		f.close()
 
 	def drawCircles(self, f):
+		""" Add the circles to the file """
 		for circ in self.circles:
 			self.drawCircle(f, circ)
 			
 	def drawTexts(self,f):
+		""" Draw every labels """
 		for label in self.texts:
 			self.drawText(f,label)
 
 	def drawmap(self, f):
+		"""Write the Google Map initial option to the file """
 		f.write('\t\tvar centerlatlng = new google.maps.LatLng(%f, %f);\n' % (self.center[0], self.center[1]))
 		f.write('\t\tvar myOptions = {\n')
 		f.write('\t\t\ttilt:0,\n')
@@ -114,6 +155,7 @@ class MapBuilder:
 		f.write('\n')
 
 	def drawText(self,f,mapLabel):
+		"""Draw a single label on the map """
 		f.write('var mapLabel = new MapLabel({\n')
 		f.write('\ttext: "%s",\n' % mapLabel.text)
 		f.write('\tposition: %s,\n' % (mapLabel.position))
@@ -130,12 +172,7 @@ class MapBuilder:
 
 
 	def drawCircle(self, f, circ):
-
-		f.write('var coords = [\n')
-		for (lat, lon) in self.getcycle(circ):
-			f.write('new google.maps.LatLng(%f, %f),\n' % (lat, lon))
-		f.write('];\n\n')
-
+		""" Draw a single circle on the map"""
 		f.write('var polygon = new google.maps.Polygon({\n')
 		f.write('clickable: %s,\n' % (circ.clickable))
 		f.write('geodesic: %s,\n' % (circ.geodesic))
@@ -158,6 +195,10 @@ class MapBuilder:
 		self.texts.append(mapLabel)
 
 	def getcycle(self, circle):
+		""" This methods transforms a circle in a polygon
+		to be displayed on the map (since GMaps doesn't
+		handle circles directly, but only paths
+		"""
 		cycle = []
 
 		d = (circle.radius / 1000.0) / 6378.8;
