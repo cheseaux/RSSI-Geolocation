@@ -172,7 +172,7 @@ class Sniffer():
 	def writeFileForPilot(self, center_x, center_y, radius, altitude=50):
 		"""This is the command that allows to pass a new waypoint to the
 		plane's autopilot"""
-		command = "/smavnet/gapi_sendcoordinates %f %f %f %f" % (float(center_x), float(center_y), altitude, float(radius))
+		command = "/smavnet/gapi_sendcoordinates %.8f %.8f %.8f %.8f" % (float(center_x), float(center_y), altitude, float(radius))
 		os.system(command)
 
 	def compute_center_of_mass(self,samples, sort_tuple, map_pwr_func, pwr_thresh, beacon_thresh, beacon_rpt_int):
