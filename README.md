@@ -6,10 +6,19 @@ It is a Master semester project conducted at EPFL, don't hesitate to take a look
 
 For more information or questions, you can contact me at cheseauxjonathan@gmail.com
 
-<b>Usage (on the plane) </b>
+<b>Usage</b>
+On the plane :
 ```bash
 <gpsfeeder> | ./PlaneSniffer <planeID> <mon_interface> <log_file_path>
 ```
+On the base station :
+```bash
+./ThreadedServer
+```
+Live map : ../server/index.html
+
+Replay framework : ../server/replay.html
+
 <b>Dependencies</b>
 
 Scapy - http://www.secdev.org/projects/scapy/
