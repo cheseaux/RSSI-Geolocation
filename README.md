@@ -7,5 +7,7 @@ It is a Master semester project conducted at EPFL, don't hesitate to take a look
 For more information or questions, you can contact me at cheseauxjonathan@gmail.com
 
 <b>Dependencies</b>
+
 Scapy - http://www.secdev.org/projects/scapy/
+
 Tornado - http://www.tornadoweb.org/en/stable/
